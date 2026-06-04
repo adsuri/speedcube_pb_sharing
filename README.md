@@ -1,0 +1,1 @@
+A website allowing anyone with a Google account to their speedcubing personal bests.
