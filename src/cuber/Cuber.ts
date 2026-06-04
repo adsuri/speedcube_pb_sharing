@@ -1,32 +1,36 @@
-import { Puzzle } from "../puzzle/Puzzle";
-import { PBest } from "../puzzle/PBest";
+import { Puzzle, type PuzzleInit } from "../puzzle/Puzzle";
+import { PUZZLES } from "../CONSTANTS";
+
+export interface CuberInit {
+  id?: number;
+  name?: string;
+  email?: string;
+  pictureURL?: string;
+  puzzles?: Record<string, PuzzleInit | null>
+}
 
 export class Cuber {
   id: number = 0;
   name: string = "";
   email: string = "";
-  pictureUrl: string = "";
+  pictureURL: string = "";
   puzzles: Record<string, Puzzle | null> = {};
 
-  constructor(initializer?: any) {
+  constructor(initializer?: CuberInit) {
     if (!initializer) throw new Error("Provide a Cuber initializer...");
     if (initializer.id) this.id = initializer.id;
     if (initializer.name) this.name = initializer.name;
     if (initializer.email) this.email = initializer.email;
-    if (initializer.pictureUrl) this.pictureUrl = initializer.pictureUrl;
+    if (initializer.pictureURL) this.pictureURL = initializer.pictureURL;
 
-    let valid_puzzles: string[] = [
-      "222", "333", "444", "555", "666", "777",
-      "3bld", "4bld", "5bld", "mbld", "skewb", "squan",
-      "pyra", "mega", "fmc", "clock", "oh"
-    ];
+    const puzzles = initializer.puzzles ?? {};
 
-    for (const puzzle of valid_puzzles) {
-      if (puzzle in initializer.puzzles) {
-        this.puzzles[puzzle] = initializer.puzzles[puzzle];
-      } else {
-        this.puzzles[puzzle] = null;
-      }
+    for (const puzzle of PUZZLES) {
+      const puzzleData = puzzles[puzzle];
+      
+      this.puzzles[puzzle] = puzzleData == null
+        ? null
+        : new Puzzle(puzzleData); 
     }
   }
 }

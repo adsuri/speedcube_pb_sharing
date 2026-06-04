@@ -1,27 +1,23 @@
+export interface PBestInit {
+  score: number | [number, number];
+  setOn?: Date;
+  setInComp?: boolean;
+  cubeUsed?: string;
+}
+
 export class PBest {
   score: number | [number, number];
   setOn: Date = new Date();
   setInComp: boolean = false;
+  cubeUsed: string = "";
 
-  constructor(initializer?: any) {
+  constructor(initializer?: PBestInit) {
     if (!initializer) throw new Error("Provide a PBest initializer...");
-    if (!initializer.score) throw new Error("Provide a time or score for a PBest...");
+    if (initializer.score == null) throw new Error("Provide a score for a PBest...");
 
-    if (typeof initializer.score === "number") {
-      this.score = initializer.score;
-    }
-    else if (
-      Array.isArray(initializer.score) &&
-      initializer.score.length === 2 &&
-      typeof initializer.score[0] === "number" &&
-      typeof initializer.score[1] === "number"
-    ) {
-      this.score = [initializer.score[0], initializer.score[1]];
-    } else {
-      throw new Error("Provide a valid score for a PBest...");
-    }
-
+    this.score = initializer.score;
     if (initializer.setOn) this.setOn = initializer.setOn;
     if (initializer.setInComp) this.setInComp = initializer.setInComp;
+    if (initializer.cubeUsed) this.cubeUsed = initializer.cubeUsed;
   }
 }

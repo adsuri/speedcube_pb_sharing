@@ -1,12 +1,13 @@
 import { useState } from "react"
 import "./App.css"
+import { ADITYA } from "./cuber/MOCKCUBERS";
 
 function App() {
   return (
     <>
-      <blockquote cite="Benjamin Franklin">
-        Style Test
-      </blockquote>
+      <div className="container">
+        <pre>{JSON.stringify(ADITYA, null, 2)}</pre>
+      </div>
     </>
   );
 }

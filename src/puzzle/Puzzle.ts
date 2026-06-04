@@ -1,24 +1,27 @@
-import { PBest } from "./PBest"
+import { PBest, type PBestInit } from "./PBest"
+import { CATEGORIES } from "../CONSTANTS";
+
+export interface PuzzleInit {
+  currMain?: string;
+  records?: Record<string, PBestInit | null>;
+}
 
 export class Puzzle {
   currMain: string = "";
-  bests: Record<string, PBest | null> = {};
+  records: Record<string, PBest | null> = {};
 
-  constructor(initializer?: any) {
+  constructor(initializer?: PuzzleInit) {
     if (!initializer) throw new Error("Provide a Puzzle initializer...");
     if (initializer.currMain) this.currMain = initializer.currMain;
-    if (!initializer.bests) throw new Error("Provide scores for a Puzzle...");
+    
+    const records = initializer.records ?? {};
 
-    let categories: string[] = [
-      "single", "mo3", "ao5", "ao12", "ao25", "ao50", "ao100"
-    ]
-
-    for (const category of categories) {
-      if (category in initializer.bests) {
-        this.bests[category] = initializer.bests[category];
-      } else {
-        this.bests[category] = null;
-      }
+    for (const category of CATEGORIES) {
+      const record = records[category];
+      
+      this.records[category] = record == null
+        ? null
+        : new PBest(record); 
     }
   }
 }
