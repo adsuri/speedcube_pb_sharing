@@ -65,6 +65,15 @@ export const ADITYA = new Cuber({
           cubeUsed: "GAN 354 M"
         }
       }
+    },
+    "mbld": {
+      name: "mbld",
+      currMain: "test",
+      records: {
+        "single": {
+          score: [[14, 25], 70]
+        }
+      }
     }
   }
 });

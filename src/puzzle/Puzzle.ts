@@ -12,7 +12,7 @@ export class Puzzle {
   currMain: string = "";
   records: Record<string, PBest | null> = {};
 
-  constructor(initializer?: PuzzleInit) {
+  constructor(initializer: PuzzleInit) {
     if (!initializer) throw new Error("Provide a Puzzle initializer...");
     this.name = initializer.name;
     if (initializer.currMain) this.currMain = initializer.currMain;

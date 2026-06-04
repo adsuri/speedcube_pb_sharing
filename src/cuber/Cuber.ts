@@ -16,7 +16,7 @@ export class Cuber {
   pictureURL: string = "";
   puzzles: Record<string, Puzzle | null> = {};
 
-  constructor(initializer?: CuberInit) {
+  constructor(initializer: CuberInit) {
     if (!initializer) throw new Error("Provide a Cuber initializer...");
     if (initializer.id) this.id = initializer.id;
     if (initializer.name) this.name = initializer.name;
