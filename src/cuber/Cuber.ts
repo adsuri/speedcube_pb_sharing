@@ -6,7 +6,7 @@ export class Cuber {
   name: string = "";
   email: string = "";
   pictureUrl: string = "";
-  puzzles: Record<string, PBest | null> = {};
+  puzzles: Record<string, Puzzle | null> = {};
 
   constructor(initializer?: any) {
     if (!initializer) throw new Error("Provide a Cuber initializer...");
