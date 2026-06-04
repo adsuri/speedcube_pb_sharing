@@ -1,12 +1,12 @@
 export interface PBestInit {
-  score: number | [number, number];
+  score: number | [[number, number], number];
   setOn?: Date;
   setInComp?: boolean;
   cubeUsed?: string;
 }
 
 export class PBest {
-  score: number | [number, number];
+  score: number | [[number, number], number];
   setOn: Date = new Date();
   setInComp: boolean = false;
   cubeUsed: string = "";

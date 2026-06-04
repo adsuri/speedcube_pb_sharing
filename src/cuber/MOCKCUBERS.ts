@@ -1,4 +1,4 @@
-import { Cuber, type CuberInit } from "./Cuber";
+import { Cuber } from "./Cuber";
 
 export const ADITYA = new Cuber({
   id: 100,
@@ -7,6 +7,7 @@ export const ADITYA = new Cuber({
   pictureURL: "https://test.com/image.png",
   puzzles: {
     "222": {
+      name: "222",
       currMain: "Moyu Weilong 2M",
       records: {
         "single": {
@@ -36,6 +37,7 @@ export const ADITYA = new Cuber({
       }
     },
     "333": {
+      name: "333",
       currMain: "Dayan Guhong Pro+ M",
       records: {
         "single": {
