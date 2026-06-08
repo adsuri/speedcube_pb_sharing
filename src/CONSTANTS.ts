@@ -24,5 +24,6 @@ export const PUZZLE_NAMES: Record<string, string> = {
   "oh": "3x3x3 One-Handed",
   "3bld": "3x3x3 Blindfolded",
   "4bld": "4x4x4 Blindfolded",
-  "5bld": "5x5x5 Blindfolded"
+  "5bld": "5x5x5 Blindfolded",
+  "mbld": "Multiblind"
 };

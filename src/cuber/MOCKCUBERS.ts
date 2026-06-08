@@ -11,28 +11,22 @@ export const ADITYA = new Cuber({
       currMain: "Moyu Weilong 2M",
       records: {
         "single": {
-          score: 1.37,
-          cubeUsed: "Moyu Weilong 2M"
+          score: 1.37
         },
         "ao5": {
-          score: 4.61,
-          cubeUsed: "Moyu Weilong 2M"
+          score: 4.61
         },
         "ao12": {
-          score: 5.38,
-          cubeUsed: "Moyu Weilong 2M"
+          score: 5.38
         },
         "ao25": {
-          score: 5.76,
-          cubeUsed: "Moyu Weilong 2M"
+          score: 5.76
         },
         "ao50": {
-          score: 5.95,
-          cubeUsed: "Moyu Weilong 2M"
+          score: 5.95
         },
         "ao100": {
-          score: 6.22,
-          cubeUsed: "Moyu Weilong 2M"
+          score: 6.22
         }
       }
     },
@@ -41,28 +35,22 @@ export const ADITYA = new Cuber({
       currMain: "Dayan Guhong Pro+ M",
       records: {
         "single": {
-          score: 10.95,
-          cubeUsed: "Dayan Guhong Pro+ M"
+          score: 10.95
         },
         "ao5": {
-          score: 15.63,
-          cubeUsed: "Dayan Guhong Pro+ M"
+          score: 15.63
         },
         "ao12": {
-          score: 17.62,
-          cubeUsed: "GAN 354 M"
+          score: 17.62
         },
         "ao25": {
-          score: 18.69,
-          cubeUsed: "GAN 354 M"
+          score: 18.69
         },
         "ao50": {
-          score: 19.22,
-          cubeUsed: "GAN 354 M"
+          score: 19.22
         },
         "ao100": {
-          score: 19.40,
-          cubeUsed: "GAN 354 M"
+          score: 19.40
         }
       }
     },
@@ -71,7 +59,7 @@ export const ADITYA = new Cuber({
       currMain: "test",
       records: {
         "single": {
-          score: [[14, 25], 70]
+          score: [[14, 25], 3700]
         }
       }
     }

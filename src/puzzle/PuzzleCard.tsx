@@ -4,17 +4,8 @@ import type { PBest } from "./PBest";
 import { convertTime } from "../util";
 
 export interface PuzzleCardProps {
-  puzzle: Puzzle;
+  puzzle: Puzzle
 }
-
-        // {/* {
-        //   CATEGORIES.map(
-        //     (category) => ( puzzle.records[category] &&
-        //       <p>{category}: {puzzle.records[category].score}</p>
-        //     )
-        //   )
-        // } */}
-
 
 function PuzzleCard(
   { puzzle }: PuzzleCardProps
@@ -23,6 +14,7 @@ function PuzzleCard(
     <div className="card rounded">
       <section className="section dark puzzle-card">
         <strong className="strong">Event: {PUZZLE_NAMES[puzzle.name]}</strong>
+        <p>Current Main: {puzzle.currMain}</p>
 
         {
           CATEGORIES.map((category) => {
@@ -45,6 +37,11 @@ function PuzzleCard(
             }
           })
         }
+
+        <button className="bordered">
+          <span className="icon-edit "></span>
+          Edit
+        </button>
       </section>
     </div>
   );
