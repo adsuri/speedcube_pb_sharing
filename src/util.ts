@@ -1,4 +1,4 @@
-export function convertTime(duration: number) {
+export function convertTime(duration: number): [string, number, number, number] {
   const truncate = (decimal: number, n: number): string => {
     let power = Math.pow(10, n);
     const truncated = Math.trunc(decimal * power) / power;
@@ -36,5 +36,6 @@ export function convertTime(duration: number) {
     result += truncate(leftover, 2);
   }
 
-  return result;
+  console.log([result, hours, minutes, leftover]);
+  return [result, hours, minutes, leftover];
 }

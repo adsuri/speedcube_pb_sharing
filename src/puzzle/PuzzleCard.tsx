@@ -27,7 +27,7 @@ function PuzzleCard(
                 const [[solved, attempted], time] = record.score;
 
                 return (
-                  <p>{category}: {solved}/{attempted} in {convertTime(time)}</p>
+                  <p>{category}: {solved}/{attempted} in {convertTime(time)[0]}</p>
                 );
               }
             } else {
