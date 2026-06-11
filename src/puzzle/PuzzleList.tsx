@@ -37,13 +37,6 @@ function PuzzleList(
               )
             }
           </div>
-
-          // <div key={puzzle.name} className="cols-sm">
-          //   <PuzzleCard puzzle={puzzle} />
-          //   <div className="small">
-          //     <PuzzleForm puzzle={puzzle} />
-          //   </div>
-          // </div>
         ))
       }
     </div>

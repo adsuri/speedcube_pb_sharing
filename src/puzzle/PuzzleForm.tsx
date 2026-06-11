@@ -16,6 +16,14 @@ function PuzzleForm(
 
   const puzzleName: string = puzzle.name + "_";
 
+  const handleChange = (event: any) => {
+    const { type, name, value, checked } = event.target;
+
+    let split_name = name.split("_");
+
+    let updatedValue = type === "checkbox" ? checked : value;
+  };
+
   return puzzle.name != "mbld" // vvvvv regular form
     ? (<form>
         <fieldset>
@@ -43,6 +51,7 @@ function PuzzleForm(
               <input type="date" id="isoDate" name={puzzleName + category + "_setOn"}
                 defaultValue={puzzle.records[category]?.setOn != null
                 ? puzzle.records[category].setOn.toISOString().split("T")[0] : ""} />
+
               <span className="spacer"></span>
 
               In Comp?
