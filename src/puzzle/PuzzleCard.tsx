@@ -4,12 +4,14 @@ import type { PBest } from "./PBest";
 import { convertTime } from "../util";
 
 export interface PuzzleCardProps {
-  puzzle: Puzzle
+  puzzle: Puzzle;
+  onEdit: (project: Puzzle) => void
 }
 
 function PuzzleCard(
-  { puzzle }: PuzzleCardProps
+  { puzzle, onEdit }: PuzzleCardProps
 ) {
+
   return (
     <div className="card rounded">
       <section className="section dark puzzle-card">
@@ -27,7 +29,9 @@ function PuzzleCard(
                 const [[solved, attempted], time] = record.score;
 
                 return (
-                  <p>{category}: {solved}/{attempted} in {convertTime(time)[0]}</p>
+                  <p>
+                    <b>{category}</b>: {solved}/{attempted} in {convertTime(time)[0]}
+                  </p>
                 );
               }
             } else {
@@ -42,7 +46,7 @@ function PuzzleCard(
           })
         }
 
-        <button className="bordered">
+        <button className="bordered" onClick={() => {onEdit(puzzle)}}>
           <span className="icon-edit "></span>
           Edit
         </button>
