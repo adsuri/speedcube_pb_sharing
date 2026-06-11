@@ -35,7 +35,5 @@ export function convertTime(duration: number): [string, number, number, number] 
   } else {
     result += truncate(leftover, 2);
   }
-
-  console.log([result, hours, minutes, leftover]);
   return [result, hours, minutes, leftover];
 }

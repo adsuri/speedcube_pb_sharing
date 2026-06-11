@@ -2,7 +2,7 @@ import { Puzzle, type PuzzleInit } from "../puzzle/Puzzle";
 import { PUZZLES } from "../CONSTANTS";
 
 export interface CuberInit {
-  id?: number;
+  id?: string;
   name?: string;
   email?: string;
   pictureURL?: string;
@@ -10,7 +10,7 @@ export interface CuberInit {
 }
 
 export class Cuber {
-  id: number = 0;
+  id: string = crypto.randomUUID();
   name: string = "";
   email: string = "";
   pictureURL: string = "";

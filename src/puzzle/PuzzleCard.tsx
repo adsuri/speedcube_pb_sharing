@@ -14,7 +14,7 @@ function PuzzleCard(
     <div className="card rounded">
       <section className="section dark puzzle-card">
         <strong className="strong">Event: {PUZZLE_NAMES[puzzle.name]}</strong>
-        <p>Current Main: {puzzle.currMain}</p>
+        <p><b>Current Main</b>: {puzzle.currMain}</p>
 
         {
           CATEGORIES.map((category) => {
@@ -32,7 +32,11 @@ function PuzzleCard(
               }
             } else {
               return (
-                <p>{category}: {record.score}</p>
+                <p>
+                  <b>{category}</b>: {convertTime(Number(record.score))[0]}
+                  {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
+                  {record.setInComp && " (set in comp) "}
+                </p>
               );
             }
           })

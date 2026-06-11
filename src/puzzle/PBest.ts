@@ -6,7 +6,7 @@ export interface PBestInit {
 
 export class PBest {
   score: number | [[number, number], number];
-  setOn: Date = new Date();
+  setOn: Date | null = null;
   setInComp: boolean = false;
 
   constructor(initializer?: PBestInit) {

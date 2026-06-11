@@ -1,7 +1,7 @@
-pre {
+.puzzle-card {
   text-align: left;
 }
 
-.puzzle-card {
-  text-align: left;
+input[type="checkbox"] {
+  vertical-align: middle;
 }
