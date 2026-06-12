@@ -16,78 +16,84 @@ function PuzzleForm(
   { puzzle: initialPuzzle, onCancel }: PuzzleFormProps
 ) {
   const [puzzle, setPuzzle] = useState<Puzzle>(initialPuzzle);
-  const [formData, setFormData] = useState<FormData>({});
 
-  const puzzleName: string = puzzle.name + "_";
+  const records: Record<string, PBest | null> = puzzle.records;
 
-  let records: Record<string, PBest | null> = puzzle.records;
-
-  useEffect(() => {
-      const newData: FormData = {
+  const [formData, setFormData] = useState<FormData>(() => {
+    const newData: FormData = {
           currMain: puzzle.currMain ?? ""
       };
 
-      if (puzzle.name != "mbld") { // regular form
-        for (const category of CATEGORIES) {
-          const record = records[category];
+    if (puzzle.name != "mbld") { // regular form
+      for (const category of CATEGORIES) {
+        const record = records[category];
 
-          if (record != null) {
-            const convertedTime = convertTime(Number(record.score));
+        if (record != null) {
+          const convertedTime = convertTime(Number(record.score));
 
-            newData[category + "_h"] = convertedTime[1];
-            newData[category + "_m"] = convertedTime[2];
-            newData[category + "_s"] = convertedTime[3];
-            newData[category + "_setOn"] = record.setOn?.toISOString().split("T")[0] ?? "";
-            newData[category + "_setinComp"] = record.setInComp ?? false;
-          } else {
-            newData[category + "_h"] = "";
-            newData[category + "_m"] = "";
-            newData[category + "_s"] = "";
-            newData[category + "_setOn"] = "";
-            newData[category + "_setinComp"] = false;
-          }
+          newData[category + "_h"] = convertedTime[1];
+          newData[category + "_m"] = convertedTime[2];
+          newData[category + "_s"] = convertedTime[3];
+          newData[category + "_setOn"] = record.setOn?.toISOString().split("T")[0] ?? "";
+          newData[category + "_setInComp"] = record.setInComp ?? false;
+        } else {
+          newData[category + "_h"] = "";
+          newData[category + "_m"] = "";
+          newData[category + "_s"] = "";
+          newData[category + "_setOn"] = "";
+          newData[category + "_setInComp"] = false;
         }
-
-        setFormData(newData);
-      } else { // mbld form
-        for (const category of CATEGORIES) {
-          const record = records[category];
-
-          if (record != null) {
-            let convertedTime: any;
-
-            if (Array.isArray(record.score)) {
-              convertedTime = convertTime(Number(record.score[1]));
-              newData[category + "_solved"] = record.score[0][0];
-              newData[category + "_attempted"] = record.score[0][1];
-            }
-
-            newData[category + "_h"] = convertedTime[1];
-            newData[category + "_m"] = convertedTime[2];
-            newData[category + "_s"] = convertedTime[3];
-            newData[category + "_setOn"] = record.setOn?.toISOString().split("T")[0] ?? "";
-            newData[category + "_setinComp"] = record.setInComp ?? false;
-          } else {
-            newData[category + "_solved"] = "";
-            newData[category + "_attempted"] = "";
-            newData[category + "_h"] = "";
-            newData[category + "_m"] = "";
-            newData[category + "_s"] = "";
-            newData[category + "_setOn"] = "";
-            newData[category + "_setinComp"] = false;
-          }
-        }
-
-        setFormData(newData);
       }
-    }, []);
+
+      return newData;
+    } else { // mbld form
+      for (const category of CATEGORIES) {
+        const record = records[category];
+
+        if (record != null) {
+          let convertedTime: any;
+
+          if (Array.isArray(record.score)) {
+            convertedTime = convertTime(Number(record.score[1]));
+            newData[category + "_solved"] = record.score[0][0];
+            newData[category + "_attempted"] = record.score[0][1];
+          }
+
+          newData[category + "_h"] = convertedTime[1];
+          newData[category + "_m"] = convertedTime[2];
+          newData[category + "_s"] = convertedTime[3];
+          newData[category + "_setOn"] = record.setOn?.toISOString().split("T")[0] ?? "";
+          newData[category + "_setInComp"] = record.setInComp ?? false;
+        } else {
+          newData[category + "_solved"] = "";
+          newData[category + "_attempted"] = "";
+          newData[category + "_h"] = "";
+          newData[category + "_m"] = "";
+          newData[category + "_s"] = "";
+          newData[category + "_setOn"] = "";
+          newData[category + "_setInComp"] = false;
+        }
+      }
+
+      return newData;
+    }
+  });
+
+  const handleChange = (event: any) => {
+    const { name, value, type, checked } = event.target;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
 
   return puzzle.name != "mbld" // regular form
     ? (<form>
         <fieldset>
           <legend>Current Main</legend>
           <input type="text" name="currMain" placeholder="Enter current main..."
-            defaultValue={formData["currMain"]}/>
+            value={formData["currMain"] ?? ""} onChange={handleChange} />
         </fieldset>
         {
           CATEGORIES.map((category: string) => (
@@ -96,24 +102,24 @@ function PuzzleForm(
 
               <input type="text" name={category + "_h"} inputMode="numeric"
                 placeholder="HH" style={{ width: "4rem" }}
-                defaultValue={formData[category + "_h"]} />
+                value={formData[category + "_h"]?? ""} onChange={handleChange} />
               <input type="text" name={category + "_m"} inputMode="numeric"
                 placeholder="MM" style={{ width: "4rem" }}
-                defaultValue={formData[category + "_m"]} />
+                value={formData[category + "_m"]?? ""} onChange={handleChange} />
               <input type="text" name={category + "_s"} inputMode="numeric"
                 placeholder="SS" style={{ width: "5rem" }}
-                defaultValue={formData[category + "_s"]} />
+                value={formData[category + "_s"] ?? ""} onChange={handleChange} />
 
               <br /> <br />
 
               <input type="date" id="isoDate" name={category + "_setOn"}
-                defaultValue={formData[category + "_setOn"]} />
+                value={formData[category + "_setOn"] ?? ""} onChange={handleChange} />
 
               <span className="spacer"></span>
 
               In Comp?
               <input type="checkbox" name={category + "_setInComp"}
-                defaultChecked={formData[category + "_setInComp"]}/>
+                checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
             </fieldset>
           ))
         }
@@ -132,7 +138,7 @@ function PuzzleForm(
         <fieldset>
           <legend>Current Main</legend>
           <input type="text" name="currMain" placeholder="Enter current main..."
-            defaultValue={puzzle.currMain && puzzle.currMain}/>
+            value={formData["currMain"] ?? ""} onChange={handleChange} />
         </fieldset>
 
         {
@@ -142,35 +148,36 @@ function PuzzleForm(
 
               <input type="text" name={category + "_solved"} inputMode="numeric"
                 placeholder="" style={{ width: "3rem" }}
-                defaultValue={formData[category + "_solved"]} /> / <span className="spacer"></span>
+                value={formData[category + "_solved"] ?? ""} onChange={handleChange} />
+              / <span className="spacer"></span>
 
               <input type="text" name={category + "_attempted"} inputMode="numeric"
                 placeholder="" style={{ width: "3rem" }}
-                defaultValue={formData[category + "_attempted"]} />
+                value={formData[category + "_attempted"] ?? ""} onChange={handleChange} />
 
               <br />
 
               <input type="text" name={category + "_h"} inputMode="numeric"
                 placeholder="HH" style={{ width: "4rem" }}
-                defaultValue={formData[category + "_h"]} />
+                value={formData[category + "_h"] ?? ""} onChange={handleChange} />
               
               <input type="text" name={category + "_m"} inputMode="numeric"
                 placeholder="MM" style={{ width: "4rem" }}
-                defaultValue={formData[category + "_m"]} />
+                value={formData[category + "_m"] ?? ""} onChange={handleChange} />
 
               <input type="text" name={category + "_s"} inputMode="numeric"
                 placeholder="SS" style={{ width: "5rem" }}
-                defaultValue={formData[category + "_s"]} />
+                value={formData[category + "_s"] ?? ""} onChange={handleChange} />
 
               <br /> <br />
 
               <input type="date" id="isoDate" name={category + "_setOn"}
-                defaultValue={formData[category + "_setOn"]} />
+                value={formData[category + "_setOn"] ?? ""} onChange={handleChange} />
               <span className="spacer"></span>
 
               In Comp?
               <input type="checkbox" name={category + "_setInComp"}
-                defaultChecked={formData[category + "_setInComp"]}/>
+                checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
             </fieldset>
           ))
         }
