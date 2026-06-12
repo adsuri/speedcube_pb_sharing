@@ -3,60 +3,117 @@ import { useState } from "react";
 import { convertTime } from "../util";
 import { CATEGORIES } from "../CONSTANTS";
 import { PBest } from "./PBest";
+import { useEffect } from "react";
 
 export interface PuzzleFormProps {
   puzzle: Puzzle;
   onCancel: () => void
 }
 
+type FormData = Record<string, any>;
+
 function PuzzleForm(
   { puzzle: initialPuzzle, onCancel }: PuzzleFormProps
 ) {
   const [puzzle, setPuzzle] = useState<Puzzle>(initialPuzzle);
+  const [formData, setFormData] = useState<FormData>({});
 
   const puzzleName: string = puzzle.name + "_";
 
-  const handleChange = (event: any) => {
-    const { type, name, value, checked } = event.target;
+  let records: Record<string, PBest | null> = puzzle.records;
 
-    let split_name = name.split("_");
+  useEffect(() => {
+      const newData: FormData = {
+          currMain: puzzle.currMain ?? ""
+      };
 
-    let updatedValue = type === "checkbox" ? checked : value;
-  };
+      if (puzzle.name != "mbld") { // regular form
+        for (const category of CATEGORIES) {
+          const record = records[category];
 
-  return puzzle.name != "mbld" // vvvvv regular form
+          if (record != null) {
+            const convertedTime = convertTime(Number(record.score));
+
+            newData[category + "_h"] = convertedTime[1];
+            newData[category + "_m"] = convertedTime[2];
+            newData[category + "_s"] = convertedTime[3];
+            newData[category + "_setOn"] = record.setOn?.toISOString().split("T")[0] ?? "";
+            newData[category + "_setinComp"] = record.setInComp ?? false;
+          } else {
+            newData[category + "_h"] = "";
+            newData[category + "_m"] = "";
+            newData[category + "_s"] = "";
+            newData[category + "_setOn"] = "";
+            newData[category + "_setinComp"] = false;
+          }
+        }
+
+        setFormData(newData);
+      } else { // mbld form
+        for (const category of CATEGORIES) {
+          const record = records[category];
+
+          if (record != null) {
+            let convertedTime: any;
+
+            if (Array.isArray(record.score)) {
+              convertedTime = convertTime(Number(record.score[1]));
+              newData[category + "_solved"] = record.score[0][0];
+              newData[category + "_attempted"] = record.score[0][1];
+            }
+
+            newData[category + "_h"] = convertedTime[1];
+            newData[category + "_m"] = convertedTime[2];
+            newData[category + "_s"] = convertedTime[3];
+            newData[category + "_setOn"] = record.setOn?.toISOString().split("T")[0] ?? "";
+            newData[category + "_setinComp"] = record.setInComp ?? false;
+          } else {
+            newData[category + "_solved"] = "";
+            newData[category + "_attempted"] = "";
+            newData[category + "_h"] = "";
+            newData[category + "_m"] = "";
+            newData[category + "_s"] = "";
+            newData[category + "_setOn"] = "";
+            newData[category + "_setinComp"] = false;
+          }
+        }
+
+        setFormData(newData);
+      }
+    }, []);
+
+  return puzzle.name != "mbld" // regular form
     ? (<form>
         <fieldset>
           <legend>Current Main</legend>
           <input type="text" name="currMain" placeholder="Enter current main..."
-            defaultValue={puzzle.currMain && puzzle.currMain}/>
+            defaultValue={formData["currMain"]}/>
         </fieldset>
         {
           CATEGORIES.map((category: string) => (
             <fieldset>
               <legend>{category}</legend>
 
-              <input type="text" name={puzzleName + category + "_h"} inputMode="numeric"
+              <input type="text" name={category + "_h"} inputMode="numeric"
                 placeholder="HH" style={{ width: "4rem" }}
-                defaultValue={puzzle.records[category] != null ? convertTime(Number(puzzle.records[category].score))[1] : ""} />
-              <input type="text" name={puzzleName + category + "_m"} inputMode="numeric"
+                defaultValue={formData[category + "_h"]} />
+              <input type="text" name={category + "_m"} inputMode="numeric"
                 placeholder="MM" style={{ width: "4rem" }}
-                defaultValue={puzzle.records[category] != null ? convertTime(Number(puzzle.records[category].score))[2] : ""} />
-              <input type="text" name={puzzleName + category + "_s"} inputMode="numeric"
+                defaultValue={formData[category + "_m"]} />
+              <input type="text" name={category + "_s"} inputMode="numeric"
                 placeholder="SS" style={{ width: "5rem" }}
-                defaultValue={puzzle.records[category] != null ? convertTime(Number(puzzle.records[category].score))[3] : ""} />
+                defaultValue={formData[category + "_s"]} />
 
               <br /> <br />
 
-              <input type="date" id="isoDate" name={puzzleName + category + "_setOn"}
-                defaultValue={puzzle.records[category]?.setOn != null
-                ? puzzle.records[category].setOn.toISOString().split("T")[0] : ""} />
+              <input type="date" id="isoDate" name={category + "_setOn"}
+                defaultValue={formData[category + "_setOn"]} />
 
               <span className="spacer"></span>
 
               In Comp?
-              <input type="checkbox" name={puzzleName + category + "_inComp"}
-                defaultChecked={puzzle.records[category]?.setInComp}/>
+              <input type="checkbox" name={category + "_setInComp"}
+                defaultChecked={formData[category + "_setInComp"]}/>
             </fieldset>
           ))
         }
@@ -83,92 +140,37 @@ function PuzzleForm(
             <fieldset>
               <legend>{category}</legend>
 
-              <input type="text" name={puzzleName + category + "_solved"} inputMode="numeric"
+              <input type="text" name={category + "_solved"} inputMode="numeric"
                 placeholder="" style={{ width: "3rem" }}
-                defaultValue={(() => {
-                  const record: PBest | null = puzzle.records[category];
+                defaultValue={formData[category + "_solved"]} /> / <span className="spacer"></span>
 
-                  if (record == null) {
-                    return "";
-                  } else {
-                    if (Array.isArray(record.score)) {
-                      return record.score[0][0];
-                    }
-                  }
-                })()} /> / <span className="spacer"></span>
-
-              <input type="text" name={puzzleName + category + "_attempted"} inputMode="numeric"
+              <input type="text" name={category + "_attempted"} inputMode="numeric"
                 placeholder="" style={{ width: "3rem" }}
-                defaultValue={(() => {
-                  const record: PBest | null = puzzle.records[category];
-
-                  if (record == null) {
-                    return "";
-                  } else {
-                    if (Array.isArray(record.score)) {
-                      return record.score[0][1];
-                    }
-                  }
-                })()} />
+                defaultValue={formData[category + "_attempted"]} />
 
               <br />
 
-              <input type="text" name={puzzleName + category + "_h"} inputMode="numeric"
+              <input type="text" name={category + "_h"} inputMode="numeric"
                 placeholder="HH" style={{ width: "4rem" }}
-                defaultValue={(() => {
-                  const record: PBest | null = puzzle.records[category];
-
-                  if (record == null) {
-                    return "";
-                  } else {
-                    if (Array.isArray(record.score)) {
-                      console.log(record.score);
-                      console.log(convertTime(record.score[1]));
-                      return String(convertTime(record.score[1])[1]);
-                    }
-                  }
-                })()} />
+                defaultValue={formData[category + "_h"]} />
               
-              <input type="text" name={puzzleName + category + "_m"} inputMode="numeric"
+              <input type="text" name={category + "_m"} inputMode="numeric"
                 placeholder="MM" style={{ width: "4rem" }}
-                defaultValue={(() => {
-                  const record: PBest | null = puzzle.records[category];
+                defaultValue={formData[category + "_m"]} />
 
-                  if (record == null) {
-                    return "";
-                  } else {
-                    if (Array.isArray(record.score)) {
-                      console.log(convertTime(record.score[1]));
-                      return String(convertTime(record.score[1])[2]);
-                    }
-                  }
-                })()} />
-
-              <input type="text" name={puzzleName + category + "_s"} inputMode="numeric"
+              <input type="text" name={category + "_s"} inputMode="numeric"
                 placeholder="SS" style={{ width: "5rem" }}
-                defaultValue={(() => {
-                  const record: PBest | null = puzzle.records[category];
-
-                  if (record == null) {
-                    return "";
-                  } else {
-                    if (Array.isArray(record.score)) {
-                      console.log(convertTime(record.score[1]));
-                      return String(convertTime(record.score[1])[3]);
-                    }
-                  }
-                })()} />
+                defaultValue={formData[category + "_s"]} />
 
               <br /> <br />
 
-              <input type="date" id="isoDate" name={puzzleName + category + "_setOn"}
-                defaultValue={puzzle.records[category]?.setOn != null
-                ? puzzle.records[category].setOn.toISOString().split("T")[0] : ""} />
+              <input type="date" id="isoDate" name={category + "_setOn"}
+                defaultValue={formData[category + "_setOn"]} />
               <span className="spacer"></span>
 
               In Comp?
-              <input type="checkbox" name={puzzleName + category + "_inComp"}
-                defaultChecked={puzzle.records[category]?.setInComp}/>
+              <input type="checkbox" name={category + "_setInComp"}
+                defaultChecked={formData[category + "_setInComp"]}/>
             </fieldset>
           ))
         }
