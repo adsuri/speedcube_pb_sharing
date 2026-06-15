@@ -23,10 +23,10 @@ export class Cuber {
     if (initializer.email) this.email = initializer.email;
     if (initializer.pictureURL) this.pictureURL = initializer.pictureURL;
 
-    const puzzles = initializer.puzzles ?? {};
+    const puzzles: Record<string, PuzzleInit | null> = initializer.puzzles ?? {};
 
     for (const puzzle of PUZZLES) {
-      const puzzleData = puzzles[puzzle];
+      const puzzleData: PuzzleInit | null = puzzles[puzzle];
       
       this.puzzles[puzzle] = puzzleData == null
         ? null

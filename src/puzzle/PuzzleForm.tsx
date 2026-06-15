@@ -1,6 +1,6 @@
 import { Puzzle } from "./Puzzle";
 import { useState } from "react";
-import { convertTime } from "../util";
+import { convertTime, isNumericOrEmpty, isIntegerOrEmpty, isISODateOrEmpty } from "../util";
 import { CATEGORIES } from "../CONSTANTS";
 import { PBest } from "./PBest";
 
@@ -96,18 +96,6 @@ function PuzzleForm(
     } 
   });
 
-  const isNumericOrEmpty = (str: string): boolean => {
-    return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)));
-  };
-  
-  const isIntegerOrEmpty = (str: string): boolean => {
-    return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)) && Number.isInteger(Number(str)));
-  };
-
-  const isISODate = (str: string): boolean => {
-    return str == "" || /^\d{4}-\d{2}-\d{2}$/.test(str);
-  };
-
   const validate = (data: FormData): void => {
     let newErrorData: ErrorData = {};
 
@@ -164,7 +152,7 @@ function PuzzleForm(
         }
       }
 
-      if (!isISODate(data[category + "_setOn"]) && data[category + "_setOn"] != "") {
+      if (!isISODateOrEmpty(data[category + "_setOn"]) && data[category + "_setOn"] != "") {
         newErrorData[category].push("Please enter an ISO date format...")
       }
     }

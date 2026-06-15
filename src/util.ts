@@ -37,3 +37,15 @@ export function convertTime(duration: number): [string, number, number, number] 
   }
   return [result, hours, minutes, leftover];
 }
+
+export function isNumericOrEmpty(str: string): boolean {
+  return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)));
+};
+
+export function isIntegerOrEmpty(str: string): boolean {
+  return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)) && Number.isInteger(Number(str)));
+};
+
+export function isISODateOrEmpty(str: string): boolean {
+  return str == "" || /^\d{4}-\d{2}-\d{2}$/.test(str);
+};
