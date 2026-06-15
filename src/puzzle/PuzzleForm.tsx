@@ -96,8 +96,12 @@ function PuzzleForm(
     } 
   });
 
-  const isNumeric = (str: string): boolean => {
+  const isNumericOrEmpty = (str: string): boolean => {
     return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)));
+  };
+  
+  const isIntegerOrEmpty = (str: string): boolean => {
+    return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)) && Number.isInteger(Number(str)));
   };
 
   const isISODate = (str: string): boolean => {
@@ -109,17 +113,59 @@ function PuzzleForm(
 
     for (const category of CATEGORIES) {
       if (puzzle.name == "mbld") { // mbld validation
-        
-      } else if (puzzle.name == "fmc") { // fmc validation
+        newErrorData[category] = []
 
+        let validScore: boolean = true;
+
+        const solved: string = data[category + "_solved"];
+        const attempted: string = data[category + "_attempted"];
+
+        const solvedEmpty = solved == "";
+        const attemptedEmpty = attempted == "";
+
+        if (!isNumericOrEmpty(solved) || !isNumericOrEmpty(attempted)) {
+          newErrorData[category].push("Please enter valid numbers...");
+          validScore = false;
+        } else if ((!solvedEmpty && attemptedEmpty) || (solvedEmpty && !attemptedEmpty)) {
+          newErrorData[category].push("Please enter both parts of the record...");
+          validScore = false;
+        } else if (Number(solved) > Number(attempted)) {
+          newErrorData[category].push("Please enter a possible record...");
+          validScore = false;
+        }
+
+        if (validScore && !solvedEmpty && !attemptedEmpty) { // if the score is invalid, ignore the duration for the time being
+          const hours: string = data[category + "_h"];
+          const minutes: string = data[category + "_m"];
+          const seconds: string = data[category + "_s"];
+
+          if (hours == "" && minutes == "" && seconds == "") {
+            newErrorData[category].push("Please enter a duration");
+          } else if (!isNumericOrEmpty(hours) || !isNumericOrEmpty(minutes) || !isNumericOrEmpty(seconds)) {
+            newErrorData[category].push("Please enter a valid duration");
+          }
+        }
+      } else if (puzzle.name == "fmc") { // fmc validation
+        newErrorData[category] = []
+
+        const moves: string = data[category + "_moves"];
+
+        if (!isIntegerOrEmpty(moves)) {
+          newErrorData[category].push("Please enter a valid amount of moves...");
+        }
       } else { // regular validation
+        newErrorData[category] = []
         const hours: string = data[category + "_h"];
         const minutes: string = data[category + "_m"];
         const seconds: string = data[category + "_s"];
 
-        if (!isNumeric(hours) || !isNumeric(minutes) || !isNumeric(seconds)) {
-          newErrorData[category] = ["Please enter a valid number"];
+        if (!isNumericOrEmpty(hours) || !isNumericOrEmpty(minutes) || !isNumericOrEmpty(seconds)) {
+          newErrorData[category].push("Please enter a valid duration");
         }
+      }
+
+      if (!isISODate(data[category + "_setOn"]) && data[category + "_setOn"] != "") {
+        newErrorData[category].push("Please enter an ISO date format...")
       }
     }
 
@@ -158,8 +204,7 @@ function PuzzleForm(
 
             <input type="text" name={category + "_solved"} inputMode="numeric"
               placeholder="" style={{ width: "3rem" }}
-              value={formData[category + "_solved"] ?? ""} onChange={handleChange} />
-            / <span className="spacer"></span>
+              value={formData[category + "_solved"] ?? ""} onChange={handleChange} /> / <span></span>
 
             <input type="text" name={category + "_attempted"} inputMode="numeric"
               placeholder="" style={{ width: "3rem" }}
@@ -170,22 +215,35 @@ function PuzzleForm(
             <input type="text" name={category + "_h"} inputMode="numeric"
               placeholder="HH" style={{ width: "4rem" }}
               value={formData[category + "_h"] ?? ""} onChange={handleChange} />
-            
+            :
             <input type="text" name={category + "_m"} inputMode="numeric"
               placeholder="MM" style={{ width: "4rem" }}
               value={formData[category + "_m"] ?? ""} onChange={handleChange} />
-
+            :
             <input type="text" name={category + "_s"} inputMode="numeric"
               placeholder="SS" style={{ width: "5rem" }}
               value={formData[category + "_s"] ?? ""} onChange={handleChange} />
 
+            <br />
+
             <input type="date" id="isoDate" name={category + "_setOn"}
               value={formData[category + "_setOn"] ?? ""} onChange={handleChange} />
-            <span className="spacer"></span>
+            
+            <span className="spacer"> </span>
 
             In Comp?
             <input type="checkbox" name={category + "_setInComp"}
               checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
+
+            <br />
+
+            {errors[category] != null && errors[category].length != 0 && (
+              <div className="card error small">
+                {errors[category].map((e) => (
+                  <>{e}</>
+                ))}
+              </div>
+            )}
           </fieldset>
         ))
       }
@@ -212,16 +270,26 @@ function PuzzleForm(
               placeholder="Moves..." style={{ width: "6rem" }}
               value={formData[category + "_moves"] ?? ""} onChange={handleChange} />
 
-            <br /> <br />
+            <br />
 
             <input type="date" id="isoDate" name={category + "_setOn"}
               value={formData[category + "_setOn"] ?? ""} onChange={handleChange} />
 
-            <span className="spacer"></span>
+            <span> </span>
 
             In Comp?
             <input type="checkbox" name={category + "_setInComp"}
               checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
+
+            <br />
+
+            {errors[category] != null && errors[category].length != 0 && (
+              <div className="card error small">
+                {errors[category].map((e) => (
+                  <>{e}</>
+                ))}
+              </div>
+            )}
           </fieldset>
         ))
       }
@@ -251,9 +319,11 @@ function PuzzleForm(
             <input type="text" name={category + "_h"} inputMode="numeric"
               placeholder="HH" style={{ width: "4rem" }}
               value={formData[category + "_h"]?? ""} onChange={handleChange} />
+            :
             <input type="text" name={category + "_m"} inputMode="numeric"
               placeholder="MM" style={{ width: "4rem" }}
               value={formData[category + "_m"]?? ""} onChange={handleChange} />
+            :
             <input type="text" name={category + "_s"} inputMode="numeric"
               placeholder="SS" style={{ width: "5rem" }}
               value={formData[category + "_s"] ?? ""} onChange={handleChange} />
@@ -268,13 +338,15 @@ function PuzzleForm(
             In Comp?
             <input type="checkbox" name={category + "_setInComp"}
               checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
+            
+            <br />
 
-            {errors[category] && (
-            <div className="card error small">
-              {errors[category].map((e) => (
-                <>{e}</>
-              ))}
-            </div>
+            {errors[category] != null && errors[category].length != 0 && (
+              <div className="card error small">
+                {errors[category].map((e) => (
+                  <>{e}</>
+                ))}
+              </div>
             )}
           </fieldset>
         ))
