@@ -12,11 +12,11 @@ function PuzzleList(
 ) {
   const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | {}>({});
 
-  const handleEdit = (puzzle: Puzzle) => {
+  const handleEdit = (puzzle: Puzzle): void => {
     setPuzzleBeingEdited(puzzle);
   };
 
-  const cancelEditing = () => {
+  const cancelEditing = (): void => {
     setPuzzleBeingEdited({});
   };
 

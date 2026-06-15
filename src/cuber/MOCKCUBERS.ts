@@ -35,7 +35,8 @@ export const ADITYA = new Cuber({
       currMain: "Dayan Guhong Pro+ M",
       records: {
         "single": {
-          score: 10.952
+          score: 10.952,
+          setInComp: false
         },
         "ao5": {
           score: 15.63
@@ -61,6 +62,22 @@ export const ADITYA = new Cuber({
         "single": {
           score: [[14, 25], 3700.51],
           setOn: new Date()
+        }
+      }
+    },
+    "fmc": {
+      name: "fmc",
+      currMain: "testing",
+      records: {
+        "single": {
+          score: 25,
+          setOn: new Date(),
+          setInComp: true
+        },
+        "mo3": {
+          score: 30,
+          setOn: new Date(),
+          setInComp: true
         }
       }
     }

@@ -17,10 +17,10 @@ export class Puzzle {
     this.name = initializer.name;
     if (initializer.currMain) this.currMain = initializer.currMain;
 
-    const records = initializer.records ?? {};
+    const init_records: Record<string, PBestInit | null> = initializer.records ?? {};
 
     for (const category of CATEGORIES) {
-      const record = records[category];
+      const record: PBestInit | null = init_records[category];
       
       this.records[category] = record == null
         ? null
