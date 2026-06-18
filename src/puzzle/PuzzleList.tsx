@@ -4,11 +4,12 @@ import { Puzzle } from "./Puzzle";
 import { useState } from "react";
 
 export interface PuzzleListProps {
-  puzzles: Puzzle[]
+  puzzles: Puzzle[];
+  onSave: (p: Puzzle) => void
 }
 
 function PuzzleList(
-  { puzzles }: PuzzleListProps
+  { puzzles, onSave }: PuzzleListProps
 ) {
   const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | {}>({});
 
@@ -29,6 +30,7 @@ function PuzzleList(
               puzzle === puzzleBeingEdited ? (
                 <PuzzleForm 
                   puzzle={puzzle}
+                  onSave={onSave}
                   onCancel={cancelEditing} />
               ) : (
                 <PuzzleCard 

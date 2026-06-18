@@ -6,6 +6,7 @@ import { PBest } from "./PBest";
 
 export interface PuzzleFormProps {
   puzzle: Puzzle;
+  onSave: (p: Puzzle) => void;
   onCancel: () => void
 }
 
@@ -13,16 +14,15 @@ type FormData = Record<string, any>;
 type ErrorData = Record<string, string[]>;
 
 function PuzzleForm(
-  { puzzle: initialPuzzle, onCancel }: PuzzleFormProps
+  { puzzle, onSave, onCancel }: PuzzleFormProps
 ) {
-  const [puzzle, setPuzzle] = useState<Puzzle>(initialPuzzle);
   const [errors, setErrors] = useState<ErrorData>({});
 
   const records: Record<string, PBest | null> = puzzle.records;
 
   const [formData, setFormData] = useState<FormData>(() => {
     const newData: FormData = {
-          currMain: puzzle.currMain ?? ""
+      currMain: puzzle.currMain ?? ""
     };
     
     if (puzzle.name == "mbld") { // mbld form
@@ -161,7 +161,8 @@ function PuzzleForm(
   };
 
   const isValid = (): boolean => {
-    // check if errors is empty
+    if (Object.keys(errors).length == 0) console.log("no errors found");
+    
     return true;
   };
 
@@ -177,8 +178,16 @@ function PuzzleForm(
     validate(newData);
   };
 
+  const handleSubmit = (event: any): void => {
+    event.preventDefault();
+
+    if (!isValid()) return;
+
+    // convert form state to a puzzle object
+  }
+
   return puzzle.name == "mbld" ? ( // mbld form
-    <form>
+    <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Current Main</legend>
         <input type="text" name="currMain" placeholder="Enter current main..."
@@ -187,7 +196,7 @@ function PuzzleForm(
 
       {
         CATEGORIES.map((category: string) => (
-          <fieldset>
+          <fieldset key={category}>
             <legend>{category}</legend>
 
             <input type="text" name={category + "_solved"} inputMode="numeric"
@@ -226,11 +235,11 @@ function PuzzleForm(
             <br />
 
             {errors[category] != null && errors[category].length != 0 && (
-              <div className="card error small">
-                {errors[category].map((e) => (
-                  <>{e}</>
+              <>
+                {errors[category].map((e, i) => (
+                  <p className="error small puzzle-error" key={i}>{e}</p>
                 ))}
-              </div>
+              </>
             )}
           </fieldset>
         ))
@@ -243,7 +252,7 @@ function PuzzleForm(
       </div>
     </form>
   ) : puzzle.name == "fmc" ? ( // fmc form
-    <form>
+    <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Current Main</legend>
         <input type="text" name="currMain" placeholder="Enter current main..."
@@ -251,7 +260,7 @@ function PuzzleForm(
       </fieldset>
       {
         CATEGORIES.map((category: string) => (
-          <fieldset>
+          <fieldset key={category}>
             <legend>{category}</legend>
 
             <input type="text" name={category + "_moves"} inputMode="numeric"
@@ -272,11 +281,11 @@ function PuzzleForm(
             <br />
 
             {errors[category] != null && errors[category].length != 0 && (
-              <div className="card error small">
-                {errors[category].map((e) => (
-                  <>{e}</>
+              <>
+                {errors[category].map((e, i) => (
+                  <p className="error small puzzle-error" key={i}>{e}</p>
                 ))}
-              </div>
+              </>
             )}
           </fieldset>
         ))
@@ -293,7 +302,7 @@ function PuzzleForm(
       </div>
     </form>
   ) : ( // regular form
-    <form>
+    <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Current Main</legend>
         <input type="text" name="currMain" placeholder="Enter current main..."
@@ -301,7 +310,7 @@ function PuzzleForm(
       </fieldset>
       {
         CATEGORIES.map((category: string) => (
-          <fieldset>
+          <fieldset key={category}>
             <legend>{category}</legend>
 
             <input type="text" name={category + "_h"} inputMode="numeric"
@@ -330,11 +339,11 @@ function PuzzleForm(
             <br />
 
             {errors[category] != null && errors[category].length != 0 && (
-              <div className="card error small">
-                {errors[category].map((e) => (
-                  <>{e}</>
+              <>
+                {errors[category].map((e, i) => (
+                  <p className="error small puzzle-error" key={i}>{e}</p>
                 ))}
-              </div>
+              </>
             )}
           </fieldset>
         ))

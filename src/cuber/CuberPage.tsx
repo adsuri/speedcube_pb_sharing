@@ -19,13 +19,18 @@ function CuberPage(
     }
   });
 
+  const savePuzzle = (p: Puzzle) => {
+    // save puzzle to puzzleList
+  };
+
   return (
     <>
       <h2>{user.name}</h2>
 
       <h4>ID: {user.id}</h4>
 
-      <PuzzleList puzzles={puzzleList}/>
+      <PuzzleList puzzles={puzzleList}
+        onSave={savePuzzle}/>
     </>
   );
 }
