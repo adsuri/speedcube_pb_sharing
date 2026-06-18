@@ -39,13 +39,23 @@ export function convertTime(duration: number): [string, number, number, number] 
 }
 
 export function isNumericOrEmpty(str: string): boolean {
-  return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)));
+  return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)) && Number(str) >= 0);
 };
 
 export function isIntegerOrEmpty(str: string): boolean {
-  return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)) && Number.isInteger(Number(str)));
+  return str == "" || (!isNaN(Number(str)) && isFinite(Number(str)) && Number.isInteger(Number(str)) && Number(str) >= 0);
 };
 
 export function isISODateOrEmpty(str: string): boolean {
   return str == "" || /^\d{4}-\d{2}-\d{2}$/.test(str);
 };
+
+export function hmsToSeconds(hours: string, minutes: string, seconds: string): number {
+  let result: number = 0;
+
+  if (hours != "") result += 3600 * Number(hours);
+  if (minutes != "") result += 60 * Number(hours);
+  if (seconds != "") result += Number(seconds);
+
+  return result
+}

@@ -24,29 +24,29 @@ function PuzzleCard(
 
             if (record == null) return null;
 
-            if (puzzle.name == "mbld") {
+            if (puzzle.name == "mbld") { // mbld card
               if (Array.isArray(record.score)) {
                 const [[solved, attempted], time] = record.score;
 
                 return (
-                  <p>
-                    <b>{category}</b>: {solved}/{attempted} in {convertTime(time)[0]}
+                  <p key={category}>
+                    <b>{category}</b>: {solved}/{attempted} {time != -1 && " in " + convertTime(time)[0]}
                     {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
                     {record.setInComp && " (set in comp) "}
                   </p>
                 );
               }
-            } if (puzzle.name == "fmc") {
+            } if (puzzle.name == "fmc") { // fmc card
               return (
-                <p>
+                <p key={category}>
                   <b>{category}</b>: {record.score} moves
                   {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
                   {record.setInComp && " (set in comp) "}
                 </p>
               );
-            } else {
+            } else { // regular card
               return (
-                <p>
+                <p key={category}>
                   <b>{category}</b>: {convertTime(Number(record.score))[0]}
                   {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
                   {record.setInComp && " (set in comp) "}

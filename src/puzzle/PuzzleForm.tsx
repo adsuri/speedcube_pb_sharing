@@ -1,6 +1,7 @@
 import { Puzzle } from "./Puzzle";
 import { useState } from "react";
-import { convertTime, isNumericOrEmpty, isIntegerOrEmpty, isISODateOrEmpty } from "../util";
+import { convertTime, isNumericOrEmpty,
+  isIntegerOrEmpty, isISODateOrEmpty, hmsToSeconds } from "../util";
 import { CATEGORIES } from "../CONSTANTS";
 import { PBest } from "./PBest";
 
@@ -30,17 +31,20 @@ function PuzzleForm(
         const record: PBest | null = records[category];
 
         if (record != null) {
-          let convertedTime: [string, number, number, number] = ["", 0, 0, 0];
-
           if (Array.isArray(record.score)) {
-            convertedTime = convertTime(Number(record.score[1]));
             newData[category + "_solved"] = record.score[0][0];
             newData[category + "_attempted"] = record.score[0][1];
+            if (record.score[1] == -1) {
+              newData[category + "_h"] = "";
+              newData[category + "_m"] = "";
+              newData[category + "_s"] = "";
+            } else {
+              let convertedTime = convertTime(Number(record.score[1]));
+              newData[category + "_h"] = convertedTime[1];
+              newData[category + "_m"] = convertedTime[2];
+              newData[category + "_s"] = convertedTime[3];
+            }
           }
-
-          newData[category + "_h"] = convertedTime[1];
-          newData[category + "_m"] = convertedTime[2];
-          newData[category + "_s"] = convertedTime[3];
           newData[category + "_setOn"] = record.setOn?.toISOString().split("T")[0] ?? "";
           newData[category + "_setInComp"] = record.setInComp ?? false;
         } else {
@@ -96,7 +100,7 @@ function PuzzleForm(
     } 
   });
 
-  const validate = (data: FormData): void => {
+  const validate = (data: FormData): ErrorData => {
     let newErrorData: ErrorData = {};
 
     for (const category of CATEGORIES) {
@@ -111,7 +115,7 @@ function PuzzleForm(
         const solvedEmpty = solved == "";
         const attemptedEmpty = attempted == "";
 
-        if (!isNumericOrEmpty(solved) || !isNumericOrEmpty(attempted)) {
+        if (!isIntegerOrEmpty(solved) || !isIntegerOrEmpty(attempted)) {
           newErrorData[category].push("Please enter valid numbers...");
           validScore = false;
         } else if ((!solvedEmpty && attemptedEmpty) || (solvedEmpty && !attemptedEmpty)) {
@@ -128,7 +132,7 @@ function PuzzleForm(
           const seconds: string = data[category + "_s"];
 
           if (hours == "" && minutes == "" && seconds == "") {
-            newErrorData[category].push("Please enter a duration");
+            continue
           } else if (!isNumericOrEmpty(hours) || !isNumericOrEmpty(minutes) || !isNumericOrEmpty(seconds)) {
             newErrorData[category].push("Please enter a valid duration");
           }
@@ -158,12 +162,15 @@ function PuzzleForm(
     }
 
     setErrors(newErrorData);
+    return newErrorData;
   };
 
   const isValid = (): boolean => {
-    if (Object.keys(errors).length == 0) console.log("no errors found");
-    
-    return true;
+    const errorData = validate(formData);
+
+    return Object.values(errorData).every(
+      errors => errors.length == 0
+    );
   };
 
   const handleChange = (event: any) => {
@@ -183,7 +190,90 @@ function PuzzleForm(
 
     if (!isValid()) return;
 
-    // convert form state to a puzzle object
+    let newRecords: Record<string, PBest | null> = {};
+
+    let newPuzzle: Puzzle = {
+      name: puzzle.name,
+      currMain: formData["currMain"] == "" ? null : formData["currMain"],
+      records: {}
+    };
+
+    for (const category of CATEGORIES) {
+      if (puzzle.name == "mbld") { // mbld puzzle object
+        let solved: string = formData[category + "_solved"];
+        let attempted: string = formData[category + "_attempted"];
+        let hours: string = formData[category + "_h"];
+        let minutes: string = formData[category + "_m"];
+        let seconds: string = formData[category + "_s"];
+
+        if ((solved == "" && attempted == "")
+          || (Number(solved) == 0 && Number(attempted) == 0)
+        ) {
+          newRecords = { ...newRecords, [category]: null };
+        } else {
+          let newDuration: number;
+
+          if (hours == "" && minutes == "" && seconds == "") {
+            newDuration = -1;
+          } else {
+            newDuration = hmsToSeconds(hours, minutes, seconds);
+          }
+          let newPBest: PBest = {
+            score: newDuration,
+            setOn: new Date(), // not in final result
+            setInComp: formData[category + "_setInComp"]
+          };
+
+          newRecords = { ...newRecords, [category]: newPBest };
+        }
+      } else if (puzzle.name == "fmc") { // fmc puzzle object
+        let moves: string = formData[category + "_moves"];
+
+        if (moves == "" || Number(moves) == 0) {
+          newRecords = { ...newRecords, [category]: null };
+        } else {
+          let newPBest: PBest = {
+            score: Number(moves),
+            setOn: new Date(), // not in final result
+            setInComp: formData[category + "_setInComp"]
+          };
+
+          newRecords = { ...newRecords, [category]: newPBest };
+        }
+      } else { // regular puzzle object
+        let hours: string = formData[category + "_h"];
+        let minutes: string = formData[category + "_m"];
+        let seconds: string = formData[category + "_s"];
+
+        if ((hours == "" && minutes == "" && seconds == "")
+          || (Number(hours) == 0 && Number(minutes) == 0 && Number(seconds) == 0)
+        ) {
+          newRecords = { ...newRecords, [category]: null };
+        } else {
+          let newPBest: PBest = {
+            score: hmsToSeconds(hours, minutes, seconds),
+            setOn: new Date(), // not in final result
+            setInComp: formData[category + "_setInComp"]
+          };
+
+          newRecords = { ...newRecords, [category]: newPBest };
+        }
+      }
+      if (newRecords[category] != null) {
+        newRecords[category].setOn = formData[category + "_setOn"] != ""
+          ? (() => {
+            const [year, month, day]: [string, string, string] = formData[category + "_setOn"].split("-").map(Number);
+
+            return new Date(Number(year), Number(month) - 1, Number(day));
+          })()
+          : null;
+      }
+    }
+
+    newPuzzle.records = newRecords;
+
+    console.log(newPuzzle);
+    onSave(newPuzzle);
   }
 
   return puzzle.name == "mbld" ? ( // mbld form

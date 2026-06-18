@@ -30,7 +30,10 @@ function PuzzleList(
               puzzle === puzzleBeingEdited ? (
                 <PuzzleForm 
                   puzzle={puzzle}
-                  onSave={onSave}
+                  onSave={(p: Puzzle) => {
+                    cancelEditing();
+                    onSave(puzzle);
+                  }}
                   onCancel={cancelEditing} />
               ) : (
                 <PuzzleCard 
