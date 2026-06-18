@@ -34,7 +34,7 @@ function PuzzleForm(
           if (Array.isArray(record.score)) {
             newData[category + "_solved"] = record.score[0][0];
             newData[category + "_attempted"] = record.score[0][1];
-            if (record.score[1] == -1) {
+            if (record.score[1] == 0) {
               newData[category + "_h"] = "";
               newData[category + "_m"] = "";
               newData[category + "_s"] = "";
@@ -213,19 +213,22 @@ function PuzzleForm(
         } else {
           let newDuration: number;
 
-          if (hours == "" && minutes == "" && seconds == "") {
-            newDuration = -1;
+          if ((hours == "" && minutes == "" && seconds == "")
+            || hmsToSeconds(hours, minutes, seconds) == 0
+          ) {
+            newDuration = 0;
           } else {
             newDuration = hmsToSeconds(hours, minutes, seconds);
           }
           let newPBest: PBest = {
-            score: newDuration,
+            score: [[Number(solved), Number(attempted)], newDuration],
             setOn: new Date(), // not in final result
             setInComp: formData[category + "_setInComp"]
           };
 
           newRecords = { ...newRecords, [category]: newPBest };
         }
+
       } else if (puzzle.name == "fmc") { // fmc puzzle object
         let moves: string = formData[category + "_moves"];
 
@@ -240,6 +243,7 @@ function PuzzleForm(
 
           newRecords = { ...newRecords, [category]: newPBest };
         }
+
       } else { // regular puzzle object
         let hours: string = formData[category + "_h"];
         let minutes: string = formData[category + "_m"];
@@ -271,8 +275,6 @@ function PuzzleForm(
     }
 
     newPuzzle.records = newRecords;
-
-    console.log(newPuzzle);
     onSave(newPuzzle);
   }
 

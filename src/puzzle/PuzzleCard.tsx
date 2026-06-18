@@ -5,7 +5,7 @@ import { convertTime } from "../util";
 
 export interface PuzzleCardProps {
   puzzle: Puzzle;
-  onEdit: (project: Puzzle) => void
+  onEdit: (puzzleName: string) => void
 }
 
 function PuzzleCard(
@@ -30,7 +30,7 @@ function PuzzleCard(
 
                 return (
                   <p key={category}>
-                    <b>{category}</b>: {solved}/{attempted} {time != -1 && " in " + convertTime(time)[0]}
+                    <b>{category}</b>: {solved}/{attempted} {time != 0 && " in " + convertTime(time)[0]}
                     {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
                     {record.setInComp && " (set in comp) "}
                   </p>
@@ -56,7 +56,7 @@ function PuzzleCard(
           })
         }
 
-        <button className="bordered" onClick={() => {onEdit(puzzle)}}>
+        <button className="bordered" onClick={() => {onEdit(puzzle.name)}}>
           <span className="icon-edit "></span>
           Edit
         </button>

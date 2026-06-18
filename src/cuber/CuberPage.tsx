@@ -1,6 +1,8 @@
 import PuzzleList from "../puzzle/PuzzleList";
 import { Puzzle } from "../puzzle/Puzzle";
 import { Cuber } from "./Cuber";
+import { useState } from "react";
+import { PUZZLES } from "../CONSTANTS";
 
 export interface CuberPageProps {
   user: Cuber
@@ -9,18 +11,28 @@ export interface CuberPageProps {
 function CuberPage(
   { user }: CuberPageProps
 ) {
-  let puzzleList: Puzzle[] = [];
+  
 
-  Object.entries(user.puzzles).map((puzzle) => {
-    if (puzzle[1] == null) {
-      return;
-    } else {
-      puzzleList.push(puzzle[1]);
-    }
-  });
+  const [puzzleList, setPuzzleList] = useState<(Puzzle)[]>(
+    (() => {
+      let tempPuzzles: Puzzle[] = [];
 
-  const savePuzzle = (p: Puzzle) => {
-    // save puzzle to puzzleList
+      for (const p of PUZZLES) {
+        if (user.puzzles[p] != null) {
+          tempPuzzles.push(user.puzzles[p]);
+        }
+      }
+
+      return tempPuzzles;
+    })()
+  );
+
+  const savePuzzle = (newPuzzle: Puzzle) => {
+    let newPuzzles: Puzzle[] = puzzleList.map((p: Puzzle) => {
+      return p.name == newPuzzle.name ? newPuzzle : p;
+    });
+
+    setPuzzleList(newPuzzles);
   };
 
   return (

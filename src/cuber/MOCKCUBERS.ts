@@ -64,7 +64,7 @@ export const ADITYA = new Cuber({
           setOn: new Date()
         },
         "mo3": {
-          score: [[12, 20], -1]
+          score: [[12, 20], 0]
         }
       }
     },

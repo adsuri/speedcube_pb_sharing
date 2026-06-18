@@ -11,14 +11,14 @@ export interface PuzzleListProps {
 function PuzzleList(
   { puzzles, onSave }: PuzzleListProps
 ) {
-  const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | {}>({});
+  const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<string>("");
 
-  const handleEdit = (puzzle: Puzzle): void => {
-    setPuzzleBeingEdited(puzzle);
+  const handleEdit = (puzzleName: string): void => {
+    setPuzzleBeingEdited(puzzleName);
   };
 
   const cancelEditing = (): void => {
-    setPuzzleBeingEdited({});
+    setPuzzleBeingEdited("");
   };
 
   return (
@@ -27,12 +27,12 @@ function PuzzleList(
         puzzles.map(puzzle => (
           <div key={puzzle.name} className="cols-sm">
             {
-              puzzle === puzzleBeingEdited ? (
+              puzzle.name === puzzleBeingEdited ? (
                 <PuzzleForm 
                   puzzle={puzzle}
                   onSave={(p: Puzzle) => {
                     cancelEditing();
-                    onSave(puzzle);
+                    onSave(p);
                   }}
                   onCancel={cancelEditing} />
               ) : (
