@@ -11,13 +11,22 @@ export interface PuzzleCardProps {
 function PuzzleCard(
   { puzzle, onEdit }: PuzzleCardProps
 ) {
-
   return (
-    <div className="card rounded">
-      <section className="section dark puzzle-card">
-        <strong className="strong">Event: {PUZZLE_NAMES[puzzle.name]}</strong>
-        {(puzzle.currMain && <p><b>Current Main</b>: {puzzle.currMain}</p>)}
+    <div className="card fluid">
+      <section className="section dark">
+        <strong>
+          Event: {PUZZLE_NAMES[puzzle.name]}
+        </strong>
+      </section>
 
+      {puzzle.currMain && (
+        <section className="section">
+          <strong>Current Main</strong>
+          <p>{puzzle.currMain}</p>
+        </section>
+      )}
+
+      <section className="section" style={{textAlign: "left"}}>
         {
           CATEGORIES.map((category) => {
             const record: PBest | null = puzzle.records[category];
@@ -29,34 +38,65 @@ function PuzzleCard(
                 const [[solved, attempted], time] = record.score;
 
                 return (
-                  <p key={category}>
-                    <b>{category}</b>: {solved}/{attempted} {time != 0 && " in " + convertTime(time)[0]}
-                    {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
-                    {record.setInComp && " (set in comp) "}
-                  </p>
+                  <div key={category}>
+                    <div>
+                      <b>{category}</b>: {solved}/{attempted} {time != 0 && " in " + convertTime(time)[0]}
+                    </div>
+
+                    <small> {record.setOn?.toISOString().split("T")[0]} </small>
+
+                    {record.setInComp && (
+                      <>
+                        <span> </span>
+                        <small>
+                          <mark>Competition</mark>
+                        </small>
+                      </>
+                    )}
+                  </div>
                 );
               }
             } if (puzzle.name == "fmc") { // fmc card
               return (
-                <p key={category}>
-                  <b>{category}</b>: {record.score} moves
-                  {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
-                  {record.setInComp && " (set in comp) "}
-                </p>
+                <div key={category}>
+                  <div><b>{category}</b>: {record.score} moves</div>
+
+                  <small> {record.setOn?.toISOString().split("T")[0]} </small>
+
+                  {record.setInComp && (
+                    <>
+                      <span> </span>
+                      <small>
+                        <mark>Competition</mark>
+                      </small>
+                    </>
+                  )}
+                </div>
               );
             } else { // regular card
               return (
-                <p key={category}>
-                  <b>{category}</b>: {convertTime(Number(record.score))[0]}
-                  {record.setOn && ": " + record.setOn.toISOString().split("T")[0]}
-                  {record.setInComp && " (set in comp) "}
-                </p>
+                <div key={category}>
+                  <div><b>{category}</b>: {convertTime(Number(record.score))[0]}</div>
+
+                  <small> {record.setOn?.toISOString().split("T")[0]}</small>
+
+                  {record.setInComp && (
+                    <>
+                      <span> </span>
+                      <small>
+                        <mark>Competition</mark>
+                      </small>
+                    </>
+                  )}
+                </div>
               );
             }
           })
         }
+      </section>
 
-        <button className="bordered" onClick={() => {onEdit(puzzle.name)}}>
+      <section className="section" style={{textAlign: "left"}}>
+        <button className="primary" onClick={() => {onEdit(puzzle.name)}}>
           <span className="icon-edit "></span>
           Edit
         </button>

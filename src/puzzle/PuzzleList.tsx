@@ -22,10 +22,10 @@ function PuzzleList(
   };
 
   return (
-    <div className="row">
+    <div className="row cols-sm-12 cols-md-6 cols-lg-4">
       {
         puzzles.map(puzzle => (
-          <div key={puzzle.name} className="cols-sm">
+          <div key={puzzle.name}>
             {
               puzzle.name === puzzleBeingEdited ? (
                 <PuzzleForm 

@@ -326,21 +326,30 @@ function PuzzleForm(
 
             <br />
 
-            {errors[category] != null && errors[category].length != 0 && (
-              <>
-                {errors[category].map((e, i) => (
-                  <p className="error small puzzle-error" key={i}>{e}</p>
-                ))}
-              </>
-            )}
+            {
+              errors[category] != null && errors[category].length != 0 &&
+              (
+                <section>
+                  {
+                    errors[category].map((e: string, i: number) => (
+                      <div className="card error fluid" key={i}>{e}</div>
+                    ))
+                  }
+                </section>
+              )
+            }
           </fieldset>
         ))
       }
 
-      <div className="input-group">
-        <button className="primary bordered medium"> Save </button>
+      <div className="input-group fluid">
+        <button className="primary large">
+          Save
+        </button>
         <span />
-        <button type="button" className="bordered medium" onClick={onCancel}> Cancel </button>
+        <button type="button" className="secondary" onClick={onCancel}>
+          Cancel
+        </button>
       </div>
     </form>
   ) : puzzle.name == "fmc" ? ( // fmc form
@@ -372,23 +381,28 @@ function PuzzleForm(
 
             <br />
 
-            {errors[category] != null && errors[category].length != 0 && (
-              <>
-                {errors[category].map((e, i) => (
-                  <p className="error small puzzle-error" key={i}>{e}</p>
-                ))}
-              </>
-            )}
+            {
+              errors[category] != null && errors[category].length != 0 &&
+              (
+                <section>
+                  {
+                    errors[category].map((e: string, i: number) => (
+                      <div className="card error fluid" key={i}>{e}</div>
+                    ))
+                  }
+                </section>
+              )
+            }
           </fieldset>
         ))
       }
 
-      <div className="input-group">
-        <button className="primary bordered medium">
+      <div className="input-group fluid">
+        <button className="primary large">
           Save
-          </button>
+        </button>
         <span />
-        <button type="button" className="bordered medium" onClick={onCancel}>
+        <button type="button" className="secondary" onClick={onCancel}>
           Cancel
         </button>
       </div>
@@ -430,23 +444,28 @@ function PuzzleForm(
             
             <br />
 
-            {errors[category] != null && errors[category].length != 0 && (
-              <>
-                {errors[category].map((e, i) => (
-                  <p className="error small puzzle-error" key={i}>{e}</p>
-                ))}
-              </>
-            )}
+            {
+              errors[category] != null && errors[category].length != 0 &&
+              (
+                <section>
+                  {
+                    errors[category].map((e: string, i: number) => (
+                      <div className="card error fluid" key={i}>{e}</div>
+                    ))
+                  }
+                </section>
+              )
+            }
           </fieldset>
         ))
       }
 
-      <div className="input-group">
-        <button className="primary bordered medium">
+      <div className="input-group fluid">
+        <button className="primary large">
           Save
-          </button>
+        </button>
         <span />
-        <button type="button" className="bordered medium" onClick={onCancel}>
+        <button type="button" className="secondary" onClick={onCancel}>
           Cancel
         </button>
       </div>

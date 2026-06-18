@@ -36,14 +36,13 @@ function CuberPage(
   };
 
   return (
-    <>
+    <div>
       <h2>{user.name}</h2>
-
       <h4>ID: {user.id}</h4>
 
       <PuzzleList puzzles={puzzleList}
         onSave={savePuzzle}/>
-    </>
+    </div>
   );
 }
 

@@ -2,12 +2,6 @@
   text-align: left;
 }
 
-.puzzle-error {
-  color: white;
-  background-color: red;
-  margin-top: 10px;
-}
-
 input[type="checkbox"] {
   vertical-align: middle;
 }
