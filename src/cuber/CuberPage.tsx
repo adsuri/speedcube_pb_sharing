@@ -2,7 +2,7 @@ import PuzzleList from "../puzzle/PuzzleList";
 import { Puzzle } from "../puzzle/Puzzle";
 import { Cuber } from "./Cuber";
 import { useState } from "react";
-import { PUZZLES } from "../CONSTANTS";
+import { CATEGORIES, PUZZLES } from "../CONSTANTS";
 
 export interface CuberPageProps {
   user: Cuber
@@ -28,11 +28,25 @@ function CuberPage(
   );
 
   const savePuzzle = (newPuzzle: Puzzle) => {
-    let newPuzzles: Puzzle[] = puzzleList.map((p: Puzzle) => {
-      return p.name == newPuzzle.name ? newPuzzle : p;
-    });
+    let tempPuzzles: Puzzle[] = [];
 
-    setPuzzleList(newPuzzles);
+    for (const oldPuzzle of puzzleList) {
+      if (oldPuzzle.name == newPuzzle.name) {
+        let hasAnyCategory: boolean = false;
+
+        for (const category of CATEGORIES) {
+          if (newPuzzle.records[category] != null) {
+            hasAnyCategory = true;
+          }
+        }
+
+        if (hasAnyCategory) tempPuzzles.push(newPuzzle);
+      } else {
+        tempPuzzles.push(oldPuzzle);
+      }
+    }
+
+    setPuzzleList(tempPuzzles);
   };
 
   return (
