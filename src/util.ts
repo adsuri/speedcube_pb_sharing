@@ -54,7 +54,7 @@ export function hmsToSeconds(hours: string, minutes: string, seconds: string): n
   let result: number = 0;
 
   if (hours != "") result += 3600 * Number(hours);
-  if (minutes != "") result += 60 * Number(hours);
+  if (minutes != "") result += 60 * Number(minutes);
   if (seconds != "") result += Number(seconds);
 
   return result

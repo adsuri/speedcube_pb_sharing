@@ -143,7 +143,7 @@ function PuzzleForm(
         const moves: string = data[category + "_moves"];
 
         if (!isIntegerOrEmpty(moves)) {
-          newErrorData[category].push("Please enter a valid amount of moves...");
+          newErrorData[category].push("Please enter a valid number of moves...");
         }
       } else { // regular validation
         newErrorData[category] = []
@@ -278,7 +278,7 @@ function PuzzleForm(
     onSave(newPuzzle);
   }
 
-  return puzzle.name == "mbld" ? ( // mbld form
+  return (
     <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Current Main</legend>
@@ -291,29 +291,63 @@ function PuzzleForm(
           <fieldset key={category}>
             <legend>{category}</legend>
 
-            <input type="text" name={category + "_solved"} inputMode="numeric"
-              placeholder="" style={{ width: "3rem" }}
-              value={formData[category + "_solved"] ?? ""} onChange={handleChange} /> / <span></span>
+            {
+              puzzle.name == "mbld"
+                ? (
+                  <>
+                    <input type="text" name={category + "_solved"} inputMode="numeric"
+                      placeholder="" style={{ width: "3rem" }}
+                      value={formData[category + "_solved"] ?? ""} onChange={handleChange} /> / <span></span>
 
-            <input type="text" name={category + "_attempted"} inputMode="numeric"
-              placeholder="" style={{ width: "3rem" }}
-              value={formData[category + "_attempted"] ?? ""} onChange={handleChange} />
+                    <input type="text" name={category + "_attempted"} inputMode="numeric"
+                      placeholder="" style={{ width: "3rem" }}
+                      value={formData[category + "_attempted"] ?? ""} onChange={handleChange} />
 
-            <br />
+                    <br />
 
-            <input type="text" name={category + "_h"} inputMode="numeric"
-              placeholder="HH" style={{ width: "4rem" }}
-              value={formData[category + "_h"] ?? ""} onChange={handleChange} />
-            :
-            <input type="text" name={category + "_m"} inputMode="numeric"
-              placeholder="MM" style={{ width: "4rem" }}
-              value={formData[category + "_m"] ?? ""} onChange={handleChange} />
-            :
-            <input type="text" name={category + "_s"} inputMode="numeric"
-              placeholder="SS" style={{ width: "5rem" }}
-              value={formData[category + "_s"] ?? ""} onChange={handleChange} />
+                    <input type="text" name={category + "_h"} inputMode="numeric"
+                      placeholder="HH" style={{ width: "4rem" }}
+                      value={formData[category + "_h"] ?? ""} onChange={handleChange} />
+                    :
+                    <input type="text" name={category + "_m"} inputMode="numeric"
+                      placeholder="MM" style={{ width: "4rem" }}
+                      value={formData[category + "_m"] ?? ""} onChange={handleChange} />
+                    :
+                    <input type="text" name={category + "_s"} inputMode="numeric"
+                      placeholder="SS" style={{ width: "5rem" }}
+                      value={formData[category + "_s"] ?? ""} onChange={handleChange} />
 
-            <br />
+                    <br />
+                  </>
+                )
+              : puzzle.name == "fmc"
+                ? (
+                  <>
+                    <input type="text" name={category + "_moves"} inputMode="numeric"
+                      placeholder="Moves..." style={{ width: "6rem" }}
+                      value={formData[category + "_moves"] ?? ""} onChange={handleChange} />
+
+                    <br />
+                  </>
+                )
+              : (
+                <>
+                  <input type="text" name={category + "_h"} inputMode="numeric"
+                    placeholder="HH" style={{ width: "4rem" }}
+                    value={formData[category + "_h"]?? ""} onChange={handleChange} />
+                  :
+                  <input type="text" name={category + "_m"} inputMode="numeric"
+                    placeholder="MM" style={{ width: "4rem" }}
+                    value={formData[category + "_m"]?? ""} onChange={handleChange} />
+                  :
+                  <input type="text" name={category + "_s"} inputMode="numeric"
+                    placeholder="SS" style={{ width: "5rem" }}
+                    value={formData[category + "_s"] ?? ""} onChange={handleChange} />
+
+                  <br />
+                </>
+              )
+            }
 
             <input type="date" id="isoDate" name={category + "_setOn"}
               value={formData[category + "_setOn"] ?? ""} onChange={handleChange} />
@@ -324,124 +358,6 @@ function PuzzleForm(
             <input type="checkbox" name={category + "_setInComp"}
               checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
 
-            <br />
-
-            {
-              errors[category] != null && errors[category].length != 0 &&
-              (
-                <section>
-                  {
-                    errors[category].map((e: string, i: number) => (
-                      <div className="card error fluid" key={i}>{e}</div>
-                    ))
-                  }
-                </section>
-              )
-            }
-          </fieldset>
-        ))
-      }
-
-      <div className="input-group fluid">
-        <button className="primary large">
-          Save
-        </button>
-        <span />
-        <button type="button" className="secondary" onClick={onCancel}>
-          Cancel
-        </button>
-      </div>
-    </form>
-  ) : puzzle.name == "fmc" ? ( // fmc form
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <legend>Current Main</legend>
-        <input type="text" name="currMain" placeholder="Enter current main..."
-          value={formData["currMain"] ?? ""} onChange={handleChange} />
-      </fieldset>
-      {
-        CATEGORIES.map((category: string) => (
-          <fieldset key={category}>
-            <legend>{category}</legend>
-
-            <input type="text" name={category + "_moves"} inputMode="numeric"
-              placeholder="Moves..." style={{ width: "6rem" }}
-              value={formData[category + "_moves"] ?? ""} onChange={handleChange} />
-
-            <br />
-
-            <input type="date" id="isoDate" name={category + "_setOn"}
-              value={formData[category + "_setOn"] ?? ""} onChange={handleChange} />
-
-            <span> </span>
-
-            In Comp?
-            <input type="checkbox" name={category + "_setInComp"}
-              checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
-
-            <br />
-
-            {
-              errors[category] != null && errors[category].length != 0 &&
-              (
-                <section>
-                  {
-                    errors[category].map((e: string, i: number) => (
-                      <div className="card error fluid" key={i}>{e}</div>
-                    ))
-                  }
-                </section>
-              )
-            }
-          </fieldset>
-        ))
-      }
-
-      <div className="input-group fluid">
-        <button className="primary large">
-          Save
-        </button>
-        <span />
-        <button type="button" className="secondary" onClick={onCancel}>
-          Cancel
-        </button>
-      </div>
-    </form>
-  ) : ( // regular form
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <legend>Current Main</legend>
-        <input type="text" name="currMain" placeholder="Enter current main..."
-          value={formData["currMain"] ?? ""} onChange={handleChange} />
-      </fieldset>
-      {
-        CATEGORIES.map((category: string) => (
-          <fieldset key={category}>
-            <legend>{category}</legend>
-
-            <input type="text" name={category + "_h"} inputMode="numeric"
-              placeholder="HH" style={{ width: "4rem" }}
-              value={formData[category + "_h"]?? ""} onChange={handleChange} />
-            :
-            <input type="text" name={category + "_m"} inputMode="numeric"
-              placeholder="MM" style={{ width: "4rem" }}
-              value={formData[category + "_m"]?? ""} onChange={handleChange} />
-            :
-            <input type="text" name={category + "_s"} inputMode="numeric"
-              placeholder="SS" style={{ width: "5rem" }}
-              value={formData[category + "_s"] ?? ""} onChange={handleChange} />
-
-            <br />
-
-            <input type="date" id="isoDate" name={category + "_setOn"}
-              value={formData[category + "_setOn"] ?? ""} onChange={handleChange} />
-
-            <span> </span>
-
-            In Comp?
-            <input type="checkbox" name={category + "_setInComp"}
-              checked={formData[category + "_setInComp"] ?? false} onChange={handleChange} />
-            
             <br />
 
             {
