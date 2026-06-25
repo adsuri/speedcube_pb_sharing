@@ -2,6 +2,7 @@ import PuzzleCard from "./PuzzleCard";
 import PuzzleForm from "./PuzzleForm";
 import { Puzzle } from "./Puzzle";
 import { useState } from "react";
+import { CATEGORIES, PUZZLE_NAMES, PUZZLES } from "../CONSTANTS";
 
 export interface PuzzleListProps {
   puzzles: Puzzle[];
@@ -11,40 +12,81 @@ export interface PuzzleListProps {
 function PuzzleList(
   { puzzles, onSave }: PuzzleListProps
 ) {
-  const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<string>("");
+  const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | null>(null);
 
-  const handleEdit = (puzzleName: string): void => {
-    setPuzzleBeingEdited(puzzleName);
+  const [puzzleSelected, setPuzzleSelected] = useState<string>("");
+
+  const handleEdit = (puzzle: Puzzle): void => {
+    setPuzzleBeingEdited(puzzle);
   };
 
   const cancelEditing = (): void => {
-    setPuzzleBeingEdited("");
+    if (puzzleBeingEdited != null) onSave(puzzleBeingEdited);
+    setPuzzleBeingEdited(null);
+  };
+
+  const handleChange = (event: any): void => {
+    setPuzzleSelected(event.target.value);
+  };
+
+  const handleAddPuzzle = (event: any): void => {
+    event.preventDefault();
+    const selected: string = puzzleSelected;
+
+    setPuzzleSelected("");
   };
 
   return (
-    <div className="row cols-sm-12 cols-md-6 cols-lg-4">
-      {
-        puzzles.map(puzzle => (
-          <div key={puzzle.name}>
+    <>
+      <div className="container puzzlelist-header">
+        <h1>Puzzles:</h1>
+
+        <form onSubmit={handleAddPuzzle}>
+          <select name="puzzle-to-add"
+            value={puzzleSelected}
+            onChange={handleChange}>
+            <option value="" disabled> Select a puzzle to add...</option>
+
             {
-              puzzle.name === puzzleBeingEdited ? (
-                <PuzzleForm 
-                  puzzle={puzzle}
-                  onSave={(p: Puzzle) => {
-                    cancelEditing();
-                    onSave(p);
-                  }}
-                  onCancel={cancelEditing} />
-              ) : (
-                <PuzzleCard 
-                  puzzle={puzzle}
-                  onEdit={handleEdit}/>
-              )
+              PUZZLES.map((p: string) => {
+                const activePuzzles: string[] = puzzles.map((p: Puzzle) => p.name);
+
+                if (activePuzzles.includes(p)) {
+                  return;
+                } else {
+                  return (<option value={p}>{PUZZLE_NAMES[p]}</option>);
+                }
+              })
             }
-          </div>
-        ))
-      }
-    </div>
+          </select>
+
+          <button className="primary">Add Puzzle</button>
+        </form>
+      </div>
+      <div className="row cols-sm-12 cols-md-6 cols-lg-4">
+        {
+          puzzles.map(puzzle => (
+            <div key={puzzle.name}>
+              {
+                puzzle.name == puzzleBeingEdited?.name ? (
+                  <PuzzleForm 
+                    puzzle={puzzle}
+                    onSave={(p: Puzzle) => {
+                      cancelEditing();
+                      onSave(p);
+                    }}
+                    onCancel={cancelEditing} />
+                ) : (
+                  <PuzzleCard 
+                    puzzle={puzzle}
+                    onEdit={handleEdit}/>
+                )
+              }
+            </div>
+          ))
+        }
+      </div>
+    </>
   );
 }
 

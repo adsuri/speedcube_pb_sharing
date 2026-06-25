@@ -1,3 +1,13 @@
 input[type="checkbox"] {
   vertical-align: middle;
 }
+
+.puzzlelist-header {
+  display: flex;
+  justify-content: space-between; /* pushes items to opposite edges */
+  align-items: center;            /* keeps them at the same height */
+}
+
+.puzzlelist-header h3 {
+  margin: 0; /* optional: removes default heading margin */
+}

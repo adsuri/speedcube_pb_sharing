@@ -5,7 +5,7 @@ export function convertTime(duration: number): [string, number, number, number] 
     return truncated.toFixed(2);
   }
 
-  if (duration < 0) throw new RangeError();
+  if (duration < 0) throw new RangeError("Negative duration was given to convertTime...");
 
   let leftover: number = duration;
 

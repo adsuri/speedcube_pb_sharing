@@ -5,7 +5,7 @@ import { convertTime } from "../util";
 
 export interface PuzzleCardProps {
   puzzle: Puzzle;
-  onEdit: (puzzleName: string) => void
+  onEdit: (puzzle: Puzzle) => void
 }
 
 function PuzzleCard(
@@ -96,7 +96,7 @@ function PuzzleCard(
       </section>
 
       <section className="section" style={{textAlign: "left"}}>
-        <button className="primary" onClick={() => {onEdit(puzzle.name)}}>
+        <button className="primary" onClick={() => {onEdit(puzzle)}}>
           <span className="icon-edit "></span>
           Edit
         </button>

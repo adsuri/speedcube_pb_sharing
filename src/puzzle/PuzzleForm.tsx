@@ -173,7 +173,7 @@ function PuzzleForm(
     );
   };
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: any): void => {
     const { name, value, type, checked } = event.target;
 
     const newData: FormData = {
