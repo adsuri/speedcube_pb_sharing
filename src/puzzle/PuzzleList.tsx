@@ -1,7 +1,7 @@
 import PuzzleCard from "./PuzzleCard";
 import PuzzleForm from "./PuzzleForm";
 import { Puzzle } from "./Puzzle";
-import { PBest, type PBestInit } from "./PBest";
+import { type PBestInit } from "./PBest";
 import { useState } from "react";
 import { CATEGORIES, PUZZLE_NAMES, PUZZLES } from "../CONSTANTS";
 

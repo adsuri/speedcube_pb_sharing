@@ -15,11 +15,8 @@ export class Puzzle {
   constructor(initializer: PuzzleInit) {
     if (!initializer) throw new Error("Provide a Puzzle initializer...");
     this.name = initializer.name;
-    if (initializer.currMain) {
-      this.currMain = initializer.currMain;
-    } else {
-      this.currMain = null;
-    }
+    if (initializer.currMain) { this.currMain = initializer.currMain; }
+      else { this.currMain = null; }
 
     const init_records: Record<string, PBestInit | null> = initializer.records ?? {};
 
