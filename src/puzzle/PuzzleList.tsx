@@ -1,16 +1,18 @@
 import PuzzleCard from "./PuzzleCard";
 import PuzzleForm from "./PuzzleForm";
 import { Puzzle } from "./Puzzle";
+import { PBest, type PBestInit } from "./PBest";
 import { useState } from "react";
 import { CATEGORIES, PUZZLE_NAMES, PUZZLES } from "../CONSTANTS";
 
 export interface PuzzleListProps {
   puzzles: Puzzle[];
-  onSave: (p: Puzzle) => void
+  onSave: (p: Puzzle) => void;
+  onSaveAllowEmpty: (p: Puzzle) => void
 }
 
 function PuzzleList(
-  { puzzles, onSave }: PuzzleListProps
+  { puzzles, onSave, onSaveAllowEmpty }: PuzzleListProps
 ) {
   const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | null>(null);
 
@@ -32,8 +34,23 @@ function PuzzleList(
   const handleAddPuzzle = (event: any): void => {
     event.preventDefault();
     const selected: string = puzzleSelected;
+    if (selected == "") return;
 
     setPuzzleSelected("");
+
+    let newRecords: Record<string, PBestInit | null> = {};
+    for (const category of CATEGORIES) {
+        newRecords[category] = null;
+      }
+
+    const newPuzzle = new Puzzle({
+      name: selected,
+      currMain: "",
+      records: newRecords
+    });
+
+    setPuzzleBeingEdited(newPuzzle);
+    onSaveAllowEmpty(newPuzzle);
   };
 
   return (

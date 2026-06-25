@@ -9,44 +9,42 @@ export interface CuberPageProps {
 };
 
 function CuberPage(
-  { user }: CuberPageProps
+  { user: initialUser }: CuberPageProps
 ) {
-  
+  const [user, setUser] = useState<Cuber>(initialUser);
 
-  const [puzzleList, setPuzzleList] = useState<(Puzzle)[]>(
-    (() => {
-      let tempPuzzles: Puzzle[] = [];
+  const puzzleList: Puzzle[] = PUZZLES.map((p) => user.puzzles[p])
+    .filter((p): p is Puzzle => p != null);
 
-      for (const p of PUZZLES) {
-        if (user.puzzles[p] != null) {
-          tempPuzzles.push(user.puzzles[p]);
-        }
+  const savePuzzleAllowEmpty = (newPuzzle: Puzzle): void => {
+    setUser((prev) => ({
+      ...prev,
+      puzzles: {
+        ...prev.puzzles,
+        [newPuzzle.name]: newPuzzle
       }
+    })); 
+  };
 
-      return tempPuzzles;
-    })()
-  );
+  const savePuzzle = (newPuzzle: Puzzle): void => {
+    setUser((prev) => {
+      const nextPuzzles = { ...prev.puzzles };
 
-  const savePuzzle = (newPuzzle: Puzzle) => {
-    let tempPuzzles: Puzzle[] = [];
+      const hasAnyCategory = CATEGORIES.some(
+        (c) => newPuzzle.records[c] != null
+      );
 
-    for (const oldPuzzle of puzzleList) {
-      if (oldPuzzle.name == newPuzzle.name) {
-        let hasAnyCategory: boolean = false;
-
-        for (const category of CATEGORIES) {
-          if (newPuzzle.records[category] != null) {
-            hasAnyCategory = true;
-          }
-        }
-
-        if (hasAnyCategory) tempPuzzles.push(newPuzzle);
+      if (hasAnyCategory) {
+        nextPuzzles[newPuzzle.name] = newPuzzle;
       } else {
-        tempPuzzles.push(oldPuzzle);
+        nextPuzzles[newPuzzle.name] = null;
       }
-    }
 
-    setPuzzleList(tempPuzzles);
+      return {
+        ...prev,
+        puzzles: nextPuzzles
+      };
+    });
   };
 
   return (
@@ -55,7 +53,8 @@ function CuberPage(
       <h4>ID: {user.id}</h4>
 
       <PuzzleList puzzles={puzzleList}
-        onSave={savePuzzle}/>
+        onSave={savePuzzle}
+        onSaveAllowEmpty={savePuzzleAllowEmpty} />
     </div>
   );
 }

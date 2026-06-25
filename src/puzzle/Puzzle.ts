@@ -9,13 +9,17 @@ export interface PuzzleInit {
 
 export class Puzzle {
   name: string;
-  currMain: string = "";
+  currMain: string | null = "";
   records: Record<string, PBest | null> = {};
 
   constructor(initializer: PuzzleInit) {
     if (!initializer) throw new Error("Provide a Puzzle initializer...");
     this.name = initializer.name;
-    if (initializer.currMain) this.currMain = initializer.currMain;
+    if (initializer.currMain) {
+      this.currMain = initializer.currMain;
+    } else {
+      this.currMain = null;
+    }
 
     const init_records: Record<string, PBestInit | null> = initializer.records ?? {};
 

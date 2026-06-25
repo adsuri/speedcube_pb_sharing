@@ -14,7 +14,11 @@ export class PBest {
     if (initializer.score == null) throw new Error("Provide a score for a PBest...");
 
     this.score = initializer.score;
-    if (initializer.setOn) this.setOn = initializer.setOn;
+    if (initializer.setOn) {
+      this.setOn = initializer.setOn;
+    } else {
+      this.setOn = null;
+    }
     if (initializer.setInComp) this.setInComp = initializer.setInComp;
   }
 }

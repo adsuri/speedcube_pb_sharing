@@ -3,7 +3,7 @@ import { useState } from "react";
 import { convertTime, isNumericOrEmpty,
   isIntegerOrEmpty, isISODateOrEmpty, hmsToSeconds } from "../util";
 import { CATEGORIES } from "../CONSTANTS";
-import { PBest } from "./PBest";
+import { PBest, type PBestInit } from "./PBest";
 
 export interface PuzzleFormProps {
   puzzle: Puzzle;
@@ -190,15 +190,20 @@ function PuzzleForm(
 
     if (!isValid()) return;
 
-    let newRecords: Record<string, PBest | null> = {};
-
-    let newPuzzle: Puzzle = {
-      name: puzzle.name,
-      currMain: formData["currMain"] == "" ? null : formData["currMain"],
-      records: {}
-    };
+    let newRecords: Record<string, PBestInit | null> = {};
 
     for (const category of CATEGORIES) {
+      const setOn: Date | undefined =
+        formData[category + "_setOn"] !== ""
+          ? (() => {
+              const [year, month, day]: [string, string, string] = formData[category + "_setOn"].split("-").map(Number);
+
+              return new Date(Number(year), Number(month) - 1, Number(day));
+            })()
+          : undefined;
+
+      const setInComp: boolean = formData[category + "_setInComp"];
+
       if (puzzle.name == "mbld") { // mbld puzzle object
         let solved: string = formData[category + "_solved"];
         let attempted: string = formData[category + "_attempted"];
@@ -209,7 +214,7 @@ function PuzzleForm(
         if ((solved == "" && attempted == "")
           || (Number(solved) == 0 && Number(attempted) == 0)
         ) {
-          newRecords = { ...newRecords, [category]: null };
+          newRecords[category] = null;
         } else {
           let newDuration: number;
 
@@ -220,28 +225,25 @@ function PuzzleForm(
           } else {
             newDuration = hmsToSeconds(hours, minutes, seconds);
           }
-          let newPBest: PBest = {
-            score: [[Number(solved), Number(attempted)], newDuration],
-            setOn: new Date(), // not in final result
-            setInComp: formData[category + "_setInComp"]
-          };
 
-          newRecords = { ...newRecords, [category]: newPBest };
+          newRecords[category] = {
+            score: [[Number(solved), Number(attempted)], newDuration],
+            setOn: setOn,
+            setInComp: setInComp
+          };
         }
 
       } else if (puzzle.name == "fmc") { // fmc puzzle object
         let moves: string = formData[category + "_moves"];
 
         if (moves == "" || Number(moves) == 0) {
-          newRecords = { ...newRecords, [category]: null };
+          newRecords[category] = null;
         } else {
-          let newPBest: PBest = {
+          newRecords[category] = {
             score: Number(moves),
-            setOn: new Date(), // not in final result
-            setInComp: formData[category + "_setInComp"]
+            setOn: setOn,
+            setInComp: setInComp
           };
-
-          newRecords = { ...newRecords, [category]: newPBest };
         }
 
       } else { // regular puzzle object
@@ -252,29 +254,23 @@ function PuzzleForm(
         if ((hours == "" && minutes == "" && seconds == "")
           || (Number(hours) == 0 && Number(minutes) == 0 && Number(seconds) == 0)
         ) {
-          newRecords = { ...newRecords, [category]: null };
+          newRecords[category] = null;
         } else {
-          let newPBest: PBest = {
+          newRecords[category] = {
             score: hmsToSeconds(hours, minutes, seconds),
-            setOn: new Date(), // not in final result
-            setInComp: formData[category + "_setInComp"]
+            setOn: setOn,
+            setInComp: setInComp
           };
-
-          newRecords = { ...newRecords, [category]: newPBest };
         }
-      }
-      if (newRecords[category] != null) {
-        newRecords[category].setOn = formData[category + "_setOn"] != ""
-          ? (() => {
-            const [year, month, day]: [string, string, string] = formData[category + "_setOn"].split("-").map(Number);
-
-            return new Date(Number(year), Number(month) - 1, Number(day));
-          })()
-          : null;
       }
     }
 
-    newPuzzle.records = newRecords;
+    const newPuzzle = new Puzzle({
+      name: puzzle.name,
+      currMain: formData["currMain"] == "" ? null : formData["currMain"],
+      records: newRecords
+    });
+
     onSave(newPuzzle);
   }
 
