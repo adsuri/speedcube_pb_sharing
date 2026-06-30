@@ -1,5 +1,5 @@
 export const CATEGORIES: string[] = [
-      "single", "mo3", "ao5", "ao12", "ao25", "ao50", "ao100"
+  "single", "mo3", "ao5", "ao12", "ao25", "ao50", "ao100"
 ];
 
 export const PUZZLES: string[] = [
