@@ -4,10 +4,17 @@ input[type="checkbox"] {
 
 .puzzlelist-header {
   display: flex;
-  justify-content: space-between; /* pushes items to opposite edges */
-  align-items: center;            /* keeps them at the same height */
+  justify-content: space-between;
+  align-items: center;
 }
 
 .puzzlelist-header h3 {
-  margin: 0; /* optional: removes default heading margin */
+  margin: 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  align-items: gift;
+  gap: 0.1rem;
 }

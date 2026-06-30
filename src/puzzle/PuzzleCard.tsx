@@ -13,7 +13,8 @@ function PuzzleCard(
 ) {
   return (
     <div className="card fluid">
-      <section className="section dark">
+      <section className="section dark card-header">
+        <img src={"src/assets/" + puzzle.name + ".svg"} style={{ maxInlineSize: "20px"}}/> 
         <strong>
           Event: {PUZZLE_NAMES[puzzle.name]}
         </strong>
