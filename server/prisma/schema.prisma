@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url = "file:./dev.db"
+}
+
+model Cuber {
+  id         String @id @default(cuid())
+
+  googleId   String @unique
+  email      String @unique
+
+  name       String?
+  pictureURL String?
+
+  publicId   String @unique
+  
+  puzzles    Puzzle[]
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Puzzle {
+  id       String @id @default(cuid())
+
+  name     String
+  currMain String?
+
+  cuberId  String
+  cuber    Cuber @relation(fields: [cuberId], references: [id])
+
+  records  PBest[]
+}
+
+model PBest {
+  id        String @id @default(cuid())
+
+  category  String
+
+  scoreJson String
+  
+  setOn     DateTime?
+  setInComp Boolean @default(false)
+
+  puzzleId  String
+  puzzle    Puzzle @relation(fields: [puzzleId], references: [id])
+}

@@ -4,6 +4,7 @@ import { PUZZLES } from "../CONSTANTS";
 
 export interface CuberInit {
   id?: string;
+  publicId?: string;
   name?: string;
   email?: string;
   pictureURL?: string;
@@ -11,7 +12,8 @@ export interface CuberInit {
 }
 
 export class Cuber {
-  id: string = crypto.randomUUID();
+  id: string;
+  publicId: string;
   name: string | null;
   email: string | null;
   pictureURL: string | null;
@@ -19,18 +21,17 @@ export class Cuber {
 
   constructor(initializer: CuberInit) {
     if (!initializer) throw new Error("Provide a Cuber initializer...");
-    if (initializer.id) this.id = initializer.id;
-    if (initializer.name) { this.name = initializer.name; }
-      else { this.name = null; }
-    if (initializer.email) { this.email = initializer.email; }
-      else { this.email = null; }
-    if (initializer.pictureURL) { this.pictureURL = initializer.pictureURL; }
-      else { this.pictureURL = null; }
 
-    const puzzles: Record<string, PuzzleInit | null> = initializer.puzzles ?? {};
+    this.id = initializer.id ?? crypto.randomUUID();
+    this.publicId = initializer.publicId ?? crypto.randomUUID();
+    this.name = initializer.name ?? null;
+    this.email = initializer.email ?? null;
+    this.pictureURL = initializer.pictureURL ?? null;
+
+    const initialPuzzles: Record<string, PuzzleInit | null> = initializer.puzzles ?? {};
 
     for (const puzzle of PUZZLES) {
-      const puzzleData: PuzzleInit | null = puzzles[puzzle];
+      const puzzleData: PuzzleInit | null = initialPuzzles[puzzle];
       
       this.puzzles[puzzle] = puzzleData == null
         ? null

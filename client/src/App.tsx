@@ -1,5 +1,7 @@
 import "./App.css"
 
+import { Cuber } from "./cuber/Cuber";
+
 import { ADITYA } from "./cuber/MOCKCUBERS";
 
 import { BrowserRouter,
@@ -25,7 +27,7 @@ function App() {
         <Routes>
           <Route path="/users" 
             element={
-              <CuberPage user={ADITYA}/>
+              <CuberPage user={new Cuber(ADITYA)}/>
             } />
         </Routes>
       </div>
