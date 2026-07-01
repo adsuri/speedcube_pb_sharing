@@ -8,11 +8,12 @@ import { CATEGORIES, PUZZLE_NAMES, PUZZLES } from "../CONSTANTS";
 export interface PuzzleListProps {
   puzzles: Puzzle[];
   onSave: (p: Puzzle) => void;
-  onSaveAllowEmpty: (p: Puzzle) => void
+  onSaveAllowEmpty: (p: Puzzle) => void;
+  onDelete: (p: Puzzle) => void
 }
 
 function PuzzleList(
-  { puzzles, onSave, onSaveAllowEmpty }: PuzzleListProps
+  { puzzles, onSave, onSaveAllowEmpty, onDelete }: PuzzleListProps
 ) {
   const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | null>(null);
 
@@ -54,8 +55,8 @@ function PuzzleList(
   };
 
   return (
-    <>
-      <div className="container puzzlelist-header">
+    <div>
+      <div className="puzzlelist-header">
         <h1>Puzzles:</h1>
 
         <form onSubmit={handleAddPuzzle}>
@@ -80,10 +81,10 @@ function PuzzleList(
           <button className="primary">Add Puzzle</button>
         </form>
       </div>
-      <div className="row cols-sm-12 cols-md-6 cols-lg-4">
+      <div className="row">
         {
           puzzles.map(puzzle => (
-            <div key={puzzle.name}>
+            <div key={puzzle.name} className="cols-sm-12 cols-md-6 cols-lg-4">
               {
                 puzzle.name == puzzleBeingEdited?.name ? (
                   <PuzzleForm 
@@ -96,14 +97,15 @@ function PuzzleList(
                 ) : (
                   <PuzzleCard 
                     puzzle={puzzle}
-                    onEdit={handleEdit}/>
+                    onEdit={handleEdit}
+                    onDelete={onDelete}/>
                 )
               }
             </div>
           ))
         }
       </div>
-    </>
+    </div>
   );
 }
 

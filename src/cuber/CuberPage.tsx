@@ -16,7 +16,7 @@ function CuberPage(
   const puzzleList: Puzzle[] = PUZZLES.map((p) => user.puzzles[p])
     .filter((p): p is Puzzle => p != null);
 
-  const savePuzzleAllowEmpty = (newPuzzle: Puzzle): void => {
+  const handleSavePuzzleAllowEmpty = (newPuzzle: Puzzle): void => {
     setUser((prev) => ({
       ...prev,
       puzzles: {
@@ -26,35 +26,46 @@ function CuberPage(
     })); 
   };
 
-  const savePuzzle = (newPuzzle: Puzzle): void => {
+  const handleSavePuzzle = (newPuzzle: Puzzle): void => {
     setUser((prev) => {
-      const nextPuzzles = { ...prev.puzzles };
+      const tempPuzzles: Record<string, Puzzle | null> = prev.puzzles;
 
-      const hasAnyCategory = CATEGORIES.some(
+      const hasAnyCategory: boolean = CATEGORIES.some(
         (c) => newPuzzle.records[c] != null
       );
 
       if (hasAnyCategory) {
-        nextPuzzles[newPuzzle.name] = newPuzzle;
+        tempPuzzles[newPuzzle.name] = newPuzzle;
       } else {
-        nextPuzzles[newPuzzle.name] = null;
+        tempPuzzles[newPuzzle.name] = null;
       }
 
       return {
         ...prev,
-        puzzles: nextPuzzles
+        puzzles: tempPuzzles
       };
     });
   };
 
+  const handleDelete = (p: Puzzle): void => {
+    setUser((prev) => ({
+      ...prev,
+      puzzles: {
+        ...prev.puzzles,
+        [p.name]: null
+      }
+    }));
+  };
+
   return (
-    <div>
+    <div className="cuberpage">
       <h2>{user.name}</h2>
       <h4>ID: {user.id}</h4>
 
       <PuzzleList puzzles={puzzleList}
-        onSave={savePuzzle}
-        onSaveAllowEmpty={savePuzzleAllowEmpty} />
+        onSave={handleSavePuzzle}
+        onSaveAllowEmpty={handleSavePuzzleAllowEmpty}
+        onDelete={handleDelete} />
     </div>
   );
 }

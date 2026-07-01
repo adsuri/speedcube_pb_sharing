@@ -3,18 +3,35 @@ input[type="checkbox"] {
 }
 
 .puzzlelist-header {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center
 }
 
-.puzzlelist-header h3 {
-  margin: 0;
+.puzzlelist-header select,
+.puzzlelist-header button {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 2rem;
+  padding: 0 0.5rem
 }
 
 .card-header {
   display: flex;
   justify-content: center;
-  align-items: gift;
+  align-items: center;
   gap: 0.1rem;
 }
+
+.cuberpage {
+  box-sizing: border-box;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* * {
+  outline: 1px solid rgba(255, 0, 0, 0.2);
+} */

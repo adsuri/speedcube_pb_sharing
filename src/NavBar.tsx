@@ -8,7 +8,7 @@ function NavBar() {
       </NavLink>
 
       <NavLink to="/signinplaceholder" className="button rounded">
-        Replace With Google Auth
+        Replace With Google Auth Signin/Signout
       </NavLink>
     </header>
   );

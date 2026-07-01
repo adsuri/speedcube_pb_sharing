@@ -5,11 +5,12 @@ import { convertTime } from "../util";
 
 export interface PuzzleCardProps {
   puzzle: Puzzle;
-  onEdit: (puzzle: Puzzle) => void
+  onEdit: (p: Puzzle) => void;
+  onDelete: (p: Puzzle) => void;
 }
 
 function PuzzleCard(
-  { puzzle, onEdit }: PuzzleCardProps
+  { puzzle, onEdit, onDelete }: PuzzleCardProps
 ) {
   return (
     <div className="card fluid">
@@ -27,7 +28,7 @@ function PuzzleCard(
         </section>
       )}
 
-      <section className="section" style={{textAlign: "left"}}>
+      <section className="section" style={{ textAlign: "left" }}>
         {
           CATEGORIES.map((category) => {
             const record: PBest | null = puzzle.records[category];
@@ -96,10 +97,14 @@ function PuzzleCard(
         }
       </section>
 
-      <section className="section" style={{textAlign: "left"}}>
-        <button className="primary" onClick={() => {onEdit(puzzle)}}>
+      <section className="section" style={{ textAlign: "left" }}>
+        <button className="primary" onClick={() => { onEdit(puzzle); }}>
           <span className="icon-edit "></span>
           Edit
+        </button>
+
+        <button className="secondary" onClick={() => { onDelete(puzzle) }}>
+          Delete
         </button>
       </section>
     </div>
