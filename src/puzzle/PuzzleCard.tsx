@@ -1,6 +1,7 @@
 import { Puzzle } from "./Puzzle";
-import { CATEGORIES, PUZZLE_NAMES } from "../CONSTANTS";
 import type { PBest } from "./PBest";
+
+import { CATEGORIES, PUZZLE_NAMES } from "../CONSTANTS";
 import { convertTime } from "../util";
 
 export interface PuzzleCardProps {
@@ -15,7 +16,8 @@ function PuzzleCard(
   return (
     <div className="card fluid">
       <section className="section dark card-header">
-        <img src={"src/assets/" + puzzle.name + ".svg"} style={{ maxInlineSize: "20px"}}/> 
+        <img src={"src/assets/" + puzzle.name + ".svg"}
+          style={{ maxInlineSize: "20px"}} alt={PUZZLE_NAMES[puzzle.name]}/> 
         <strong>
           Event: {PUZZLE_NAMES[puzzle.name]}
         </strong>

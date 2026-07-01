@@ -1,9 +1,11 @@
-import PuzzleCard from "./PuzzleCard";
-import PuzzleForm from "./PuzzleForm";
 import { Puzzle } from "./Puzzle";
 import { type PBestInit } from "./PBest";
-import { useState } from "react";
+
 import { CATEGORIES, PUZZLE_NAMES, PUZZLES } from "../CONSTANTS";
+
+import { useState } from "react";
+import PuzzleCard from "./PuzzleCard";
+import PuzzleForm from "./PuzzleForm";
 
 export interface PuzzleListProps {
   puzzles: Puzzle[];
@@ -62,7 +64,7 @@ function PuzzleList(
         <form onSubmit={handleAddPuzzle}>
           <select name="puzzle-to-add"
             value={puzzleSelected}
-            onChange={handleChange}>
+            onChange={handleChange} >
             <option value="" disabled> Select a puzzle to add...</option>
 
             {

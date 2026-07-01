@@ -1,4 +1,5 @@
 import { PBest, type PBestInit } from "./PBest"
+
 import { CATEGORIES } from "../CONSTANTS";
 
 export interface PuzzleInit {

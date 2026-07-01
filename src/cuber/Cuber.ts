@@ -1,4 +1,5 @@
 import { Puzzle, type PuzzleInit } from "../puzzle/Puzzle";
+
 import { PUZZLES } from "../CONSTANTS";
 
 export interface CuberInit {

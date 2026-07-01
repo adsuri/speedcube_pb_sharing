@@ -1,8 +1,13 @@
 import "./App.css"
+
 import { ADITYA } from "./cuber/MOCKCUBERS";
+
+import { BrowserRouter,
+         NavLink,
+         Route,
+         Routes } from "react-router-dom";
 import CuberPage from "./cuber/CuberPage";
 import NavBar from "./NavBar";
-import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
 
 function App() {
   return (

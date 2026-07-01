@@ -1,9 +1,15 @@
 import { Puzzle } from "./Puzzle";
-import { useState } from "react";
-import { convertTime, isNumericOrEmpty,
-  isIntegerOrEmpty, isISODateOrEmpty, hmsToSeconds } from "../util";
-import { CATEGORIES } from "../CONSTANTS";
 import { PBest, type PBestInit } from "./PBest";
+
+import { CATEGORIES } from "../CONSTANTS";
+import { convertTime,
+         isNumericOrEmpty,
+         isIntegerOrEmpty,
+         isISODateOrEmpty,
+         hmsToSeconds } from "../util";
+
+import { useState } from "react";
+
 
 export interface PuzzleFormProps {
   puzzle: Puzzle;

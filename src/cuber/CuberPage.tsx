@@ -1,8 +1,10 @@
-import PuzzleList from "../puzzle/PuzzleList";
 import { Puzzle } from "../puzzle/Puzzle";
 import { Cuber } from "./Cuber";
-import { useState } from "react";
+
 import { CATEGORIES, PUZZLES } from "../CONSTANTS";
+
+import { useState } from "react";
+import PuzzleList from "../puzzle/PuzzleList";
 
 export interface CuberPageProps {
   user: Cuber
