@@ -1,6 +1,8 @@
 import express from "express";
 import { verifyGoogleToken } from "../auth/google.js";
 import { prisma } from "../lib/prisma.js";
+import { signToken } from "../auth/jwt.js";
+import { requireAuth, type AuthRequest } from "../middleware/requireAuth.js";
 
 const router = express.Router();
 
@@ -31,8 +33,15 @@ router.post("/google", async (req, res) => {
         }
       });
     }
+
+    const jwtToken = signToken({
+      cuberId: cuber.id,
+    });
     
-    return res.json(cuber);
+    return res.json({
+      cuber,
+      token: jwtToken
+    });
 
   } catch (err) {
     return res.status(401).json({ error: "Invalid Google token" });
