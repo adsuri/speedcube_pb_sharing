@@ -48,4 +48,29 @@ router.post("/google", async (req, res) => {
   }
 });
 
+router.get("/me", requireAuth, async (req: AuthRequest, res) => {
+  try {
+    const cuberId = req.user!.cuberId;
+
+    const cuber = await prisma.cuber.findUnique({
+      where: { id: cuberId },
+      include: {
+        puzzles: {
+          include: {
+            records: true,
+          },
+        },
+      },
+    });
+
+    if (!cuber) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.json(cuber);
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to fetch user" });
+  }
+});
+
 export default router;
