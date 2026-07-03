@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRouter from "./routes/auth.js"
+import usersRouter from "./routes/users.js"
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use("/auth", authRouter);
+app.use("/users", usersRouter);
 
 app.get("/", (_, res) => {
   res.send("Cubing Tracker API");

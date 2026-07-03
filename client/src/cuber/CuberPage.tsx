@@ -62,7 +62,7 @@ function CuberPage(
   return (
     <div className="cuberpage">
       <h2>{user.name}</h2>
-      <h4>ID: {user.id}</h4>
+      <h4>ID: {user.publicId}</h4>
 
       <PuzzleList puzzles={puzzleList}
         onSave={handleSavePuzzle}

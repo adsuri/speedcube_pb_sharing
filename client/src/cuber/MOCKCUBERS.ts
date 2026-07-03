@@ -5,7 +5,6 @@ import { type PBestInit } from "../puzzle/PBest";
 
 export const ADITYA: CuberInit = {
   name: "Aditya Suri",
-  email: "adityasuri@testemail.com",
   pictureURL: "https://test.com/image.png",
   puzzles: {
     "222": {

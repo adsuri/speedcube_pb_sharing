@@ -3,6 +3,7 @@ import { verifyGoogleToken } from "../auth/google.js";
 import { prisma } from "../lib/prisma.js";
 import { signToken } from "../auth/jwt.js";
 import { requireAuth, type AuthRequest } from "../middleware/requireAuth.js";
+import { nanoid } from "nanoid";
 
 const router = express.Router();
 
@@ -29,7 +30,7 @@ router.post("/google", async (req, res) => {
           email: googleUser.email,
           name: googleUser.name,
           pictureURL: googleUser.picture,
-          publicId: crypto.randomUUID()
+          publicId: nanoid(10)
         }
       });
     }
@@ -67,7 +68,12 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    return res.json(cuber);
+    return res.json({
+      publicId: cuber.publicId,
+      name: cuber.name,
+      pictureURL: cuber.pictureURL,
+      puzzles: cuber.puzzles
+    });
   } catch (err) {
     return res.status(500).json({ error: "Failed to fetch user" });
   }
