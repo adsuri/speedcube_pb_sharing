@@ -34,6 +34,8 @@ model Puzzle {
   cuber    Cuber @relation(fields: [cuberId], references: [id])
 
   records  PBest[]
+
+  @@unique([cuberId, name])
 }
 
 model PBest {
