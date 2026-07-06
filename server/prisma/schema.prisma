@@ -31,7 +31,7 @@ model Puzzle {
   currMain String?
 
   cuberId  String
-  cuber    Cuber @relation(fields: [cuberId], references: [id])
+  cuber    Cuber @relation(fields: [cuberId], references: [id], onDelete: Cascade)
 
   records  PBest[]
 
@@ -50,4 +50,6 @@ model PBest {
 
   puzzleId  String
   puzzle    Puzzle @relation(fields: [puzzleId], references: [id])
+
+  @@unique([puzzleId, category])
 }

@@ -13,7 +13,7 @@ export async function verifyGoogleToken(
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
   if (!CLIENT_ID) {
-    throw new Error("Missing GOOGLE_CLIENT_ID in environment variables");
+    throw new Error("Missing GOOGLE_CLIENT_ID in environment variables...");
   }
 
   const client = new OAuth2Client(CLIENT_ID);
@@ -26,7 +26,7 @@ export async function verifyGoogleToken(
   const payload = ticket.getPayload();
 
   if (!payload) {
-    throw new Error("Invalid Google token");
+    throw new Error("Invalid Google token...");
   }
 
   return {

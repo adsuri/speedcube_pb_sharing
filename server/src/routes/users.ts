@@ -9,7 +9,7 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
     const publicId = req.params.publicId;
 
     if (typeof publicId !== "string") {
-      return res.status(400).json({ error: "Invalid publicId" });
+      return res.status(400).json({ error: "Invalid publicId..." });
     }
 
     const cuber = await prisma.cuber.findUnique({
@@ -44,7 +44,7 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
 
     if (!cuber) {
       return res.status(404).json({
-        error: "User not found",
+        error: "User not found...",
       });
     }
 
@@ -60,7 +60,7 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
     });
   } catch (err) {
     return res.status(500).json({
-      error: "Failed to fetch user",
+      error: "Failed to fetch user...",
     });
   }
 });

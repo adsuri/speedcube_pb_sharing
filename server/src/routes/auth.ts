@@ -12,7 +12,7 @@ router.post("/google", async (req, res) => {
     const { token } = req.body;
 
     if (!token) {
-      return res.status(400).json({ error: "Missing token" });
+      return res.status(400).json({ error: "Missing token..." });
     }
 
     const googleUser = await verifyGoogleToken(token);
@@ -45,7 +45,7 @@ router.post("/google", async (req, res) => {
     });
 
   } catch (err) {
-    return res.status(401).json({ error: "Invalid Google token" });
+    return res.status(401).json({ error: "Invalid Google token..." });
   }
 });
 
@@ -61,11 +61,11 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
             records: true,
           },
         },
-      },
+      }
     });
 
     if (!cuber) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found..." });
     }
 
     return res.json({
@@ -75,7 +75,7 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
       puzzles: cuber.puzzles
     });
   } catch (err) {
-    return res.status(500).json({ error: "Failed to fetch user" });
+    return res.status(500).json({ error: "Failed to fetch user..." });
   }
 });
 
