@@ -58,7 +58,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       } else {
         if (typeof score != "number") {
           return res.status(400).json({
-            error: `Puzzle ${puzzle.name} requires numeric scores...`,
+            error: `Puzzle ${puzzle.name} requires numeric scores...`
           });
         }
       }
@@ -115,7 +115,42 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({
-      error: "Failed to save puzzle",
+      error: "Failed to save puzzle..."
+    });
+  }
+});
+
+router.delete("/", requireAuth, async (req: AuthRequest, res) => {
+  try {
+    const cuberId = req.user!.cuberId;
+    const name = req.body.name;
+
+    if (typeof name != "string") {
+      return res.status(400).json({
+        error: "Missing puzzle name..."
+      });
+    }
+
+    if (!PUZZLES.includes(name)) {
+      return res.status(400).json({
+        error: `Invalid puzzle name: ${name}...`
+      });
+    }
+
+    await prisma.puzzle.deleteMany({
+      where: {
+        cuberId,
+        name
+      }
+    });
+
+    return res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      error: "Failed to delete puzzle..."
     });
   }
 });
