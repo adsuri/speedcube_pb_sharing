@@ -31,7 +31,3 @@ export async function loginWithGoogle(googleToken: string): Promise<GoogleLoginR
 
   return data;
 }
-
-export function logout(): void {
-  clearToken();
-}
