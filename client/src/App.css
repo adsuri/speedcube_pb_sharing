@@ -6,7 +6,7 @@ input[type="checkbox"] {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
 }
 
 .puzzlelist-header select,
@@ -16,7 +16,7 @@ input[type="checkbox"] {
   margin-top: 0;
   margin-bottom: 0;
   height: 2rem;
-  padding: 0 0.5rem
+  padding: 0 0.5rem;
 }
 
 .card-header {
@@ -24,6 +24,12 @@ input[type="checkbox"] {
   justify-content: center;
   align-items: center;
   gap: 0.1rem;
+}
+
+header.sticky {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .cuberpage {

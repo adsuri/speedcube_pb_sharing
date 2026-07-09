@@ -9,16 +9,15 @@ function NavBar() {
   console.log("navbar user:", user);
 
   return (
-    <header className = "sticky">
+    <header className = "sticky navbar">
       <NavLink to="/" className="button rounded">
         <span className="icon-home"></span> Home
       </NavLink>
 
       {
         user === null ? (
-          <div>
+          <div className="google-login-container" style={{marginLeft: "auto", marginRight: "2%"}}>
             <GoogleLoginButton />
-            LOGIN BUTTON
           </div>
         ) : (
           <div>
