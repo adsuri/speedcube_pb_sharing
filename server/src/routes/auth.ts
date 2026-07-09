@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/google", async (req, res) => {
   try {
-    const { token } = req.body;
+    const token = req.body.token;
 
     if (!token) {
       return res.status(400).json({ error: "Missing token..." });
@@ -40,8 +40,12 @@ router.post("/google", async (req, res) => {
     });
     
     return res.json({
-      cuber,
-      token: jwtToken
+      token: jwtToken,
+      cuber: {
+        publicId: cuber.publicId,
+        name: cuber.name,
+        pictureURL: cuber.pictureURL
+      }
     });
 
   } catch (err) {
