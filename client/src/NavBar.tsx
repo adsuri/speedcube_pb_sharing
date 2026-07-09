@@ -6,8 +6,6 @@ import { useAuth } from "./auth/AuthContext";
 function NavBar() {
   const { user, logout } = useAuth();
 
-  console.log("navbar user:", user);
-
   return (
     <header className = "sticky navbar">
       <NavLink to="/" className="button rounded">
@@ -16,11 +14,11 @@ function NavBar() {
 
       {
         user === null ? (
-          <div className="google-login-container" style={{marginLeft: "auto", marginRight: "2%"}}>
+          <div className="google-login-container" style={{ marginLeft: "auto", marginRight: "2%" }}>
             <GoogleLoginButton />
           </div>
         ) : (
-          <div>
+          <div style={{ marginLeft: "auto", marginRight: "2%" }}>
             <img
               src={user.pictureURL ?? ""}
               alt={user.name ?? "User"}

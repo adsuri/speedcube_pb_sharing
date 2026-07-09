@@ -6,8 +6,6 @@ import { useAuth } from "./AuthContext";
 function GoogleLoginButton() {
   const { setUser } = useAuth();
 
-  console.log("google login button mounted");
-
   return (
     <GoogleLogin
       use_fedcm_for_button={false}

@@ -76,11 +76,6 @@ export function AuthProvider(
     clearToken();
     setUser(null);
   }
-  console.log("Auth state:", {
-    user,
-    loading
-  });
-
 
   return (
     <AuthContext.Provider

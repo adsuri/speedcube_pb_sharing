@@ -1,4 +1,4 @@
-import { setToken, clearToken } from "./storage";
+import { setToken } from "./storage";
 
 export interface GoogleLoginResponse {
   token: string;

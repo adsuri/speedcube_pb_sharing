@@ -6,11 +6,11 @@ import "./index.css"
 import App from "./App.tsx"
 
 createRoot(document.getElementById("root")!).render(
-  // <StrictMode>
+  <StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <AuthProvider>
         <App />
       </AuthProvider>
     </GoogleOAuthProvider>
-  // </StrictMode>
+  </StrictMode>
 )

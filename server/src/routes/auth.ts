@@ -69,6 +69,7 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
     });
 
     if (!cuber) {
+      console.log("user not found");
       return res.status(404).json({ error: "User not found..." });
     }
 

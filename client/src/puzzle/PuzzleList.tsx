@@ -74,7 +74,7 @@ function PuzzleList(
                 if (activePuzzles.includes(p)) {
                   return;
                 } else {
-                  return (<option value={p}>{PUZZLE_NAMES[p]}</option>);
+                  return (<option value={p} key={p}>{PUZZLE_NAMES[p]}</option>);
                 }
               })
             }
