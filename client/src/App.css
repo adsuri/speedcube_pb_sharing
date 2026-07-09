@@ -37,6 +37,12 @@ header.sticky {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+.logged-in {
+  margin-left: auto;
+  margin-right: 2%;
+  display: flex;
+  align-items: center;
+}
 
 /* * {
   outline: 1px solid rgba(255, 0, 0, 0.2);

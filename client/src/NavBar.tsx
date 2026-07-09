@@ -14,25 +14,31 @@ function NavBar() {
 
       {
         user === null ? (
-          <div className="google-login-container" style={{ marginLeft: "auto", marginRight: "2%" }}>
+          <div style={{ marginLeft: "auto", marginRight: "2%" }}>
             <GoogleLoginButton />
           </div>
         ) : (
-          <div style={{ marginLeft: "auto", marginRight: "2%" }}>
-            <img
-              src={user.pictureURL ?? ""}
-              alt={user.name ?? "User"}
+          <div className="logged-in">
+            <NavLink
+              to={"/users/" + user.publicId}
+              className="button rounded"
               style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                marginRight: "8px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px"
               }}
-            />
-
-            <span>
+            >
+              <img
+                src={user.pictureURL ?? ""}
+                alt={user.name ?? "User"}
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "50%",
+                  marginRight: "8px",
+                }} />
               {user.name ?? "User"}
-            </span>
+            </NavLink>
 
             <button
               className="secondary"
