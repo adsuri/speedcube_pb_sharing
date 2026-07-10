@@ -12,7 +12,7 @@ export type SavePBestRequest = {
 export type SavePuzzleRequest = {
   name: string;
   currMain?: string | null;
-  records?: Record<string, SavePBestRequest | null>;
+  records?: Record<string, SavePBestRequest | null>
 };
 
 const router = express.Router();
@@ -20,7 +20,8 @@ const router = express.Router();
 router.post("/", requireAuth, async (req: AuthRequest, res) => {
   try {
     const cuberId = req.user!.cuberId;
-    const puzzle = req.body as SavePuzzleRequest;
+    const puzzle = req.body.puzzle as SavePuzzleRequest;
+    const givenPublicId = req.body.publicId;
 
     if (!puzzle?.name) {
       return res.status(400).json({ error: "Missing puzzle name..." });
@@ -28,6 +29,24 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
 
     if (!PUZZLES.includes(puzzle.name)) {
       return res.status(400).json({ error: "Invalid puzzle name..." });
+    }
+
+    if (typeof givenPublicId !== "string") {
+      return res.status(400).json({
+        error: "Missing publicId..."
+      });
+    }
+
+    // get database id from given public id and check if they match requireAuth's inserted database cuberId from req.user
+    const targetUser = await prisma.cuber.findUnique({
+      where: {
+        publicId: givenPublicId
+      }
+    });
+
+    if (targetUser?.id != cuberId) {
+      // eventual admin check
+      return res.status(403).json({ error: "You cannot change another user's puzzles..." });
     }
 
     const records = puzzle.records ?? {};
@@ -69,8 +88,8 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       const dbPuzzle = await tx.puzzle.upsert({
         where: {
           cuberId_name: {
-            cuberId,
-            name: puzzle.name,
+            cuberId: cuberId,
+            name: puzzle.name
           }
         },
         create: {
@@ -123,6 +142,7 @@ router.delete("/", requireAuth, async (req: AuthRequest, res) => {
   try {
     const cuberId = req.user!.cuberId;
     const name = req.body.name;
+    const givenPublicId = req.body.publicId;
 
     if (typeof name != "string") {
       return res.status(400).json({
@@ -136,10 +156,28 @@ router.delete("/", requireAuth, async (req: AuthRequest, res) => {
       });
     }
 
+    if (typeof givenPublicId !== "string") {
+      return res.status(400).json({
+        error: "Missing publicId..."
+      });
+    }
+
+    // get database id from given public id and check if they match requireAuth's inserted database cuberId from req.user
+    const targetUser = await prisma.cuber.findUnique({
+      where: {
+        publicId: givenPublicId
+      }
+    });
+
+    if (targetUser?.id != cuberId) {
+      // eventual admin check
+      return res.status(403).json({ error: "You cannot change another user's puzzles..." });
+    }
+
     await prisma.puzzle.deleteMany({
       where: {
-        cuberId,
-        name
+        cuberId: cuberId,
+        name: name
       }
     });
 

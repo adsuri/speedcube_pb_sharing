@@ -36,7 +36,7 @@ router.post("/google", async (req, res) => {
     }
 
     const jwtToken = signToken({
-      cuberId: cuber.id,
+      cuberId: cuber.id
     });
     
     return res.json({
@@ -62,9 +62,9 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
       include: {
         puzzles: {
           include: {
-            records: true,
-          },
-        },
+            records: true
+          }
+        }
       }
     });
 
@@ -76,8 +76,7 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
     return res.json({
       publicId: cuber.publicId,
       name: cuber.name,
-      pictureURL: cuber.pictureURL,
-      puzzles: cuber.puzzles
+      pictureURL: cuber.pictureURL
     });
   } catch (err) {
     return res.status(500).json({ error: "Failed to fetch user..." });

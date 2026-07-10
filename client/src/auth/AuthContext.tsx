@@ -11,13 +11,13 @@ import { clearToken, getToken } from "../api/storage";
 export interface AuthUser {
   publicId: string;
   name: string | null;
-  pictureURL: string | null;
+  pictureURL: string | null
 }
 
 interface AuthContextType {
   user: AuthUser | null;
   setUser: (user: AuthUser | null) => void;
-  logout: () => void;
+  logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
