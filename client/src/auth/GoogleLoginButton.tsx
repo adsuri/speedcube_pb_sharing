@@ -8,8 +8,6 @@ function GoogleLoginButton() {
 
   return (
     <GoogleLogin
-      use_fedcm_for_button={false}
-      use_fedcm_for_prompt={false}
       theme="outline"
       size="large"
       text="signin_with"

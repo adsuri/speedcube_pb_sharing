@@ -7,12 +7,9 @@ import {
 } from "react";
 
 import { clearToken, getToken } from "../api/storage";
+import { type AuthUser } from "../api/auth";
+import { fetchLoggedInUser } from "../api/auth";
 
-export interface AuthUser {
-  publicId: string;
-  name: string | null;
-  pictureURL: string | null
-}
 
 interface AuthContextType {
   user: AuthUser | null;
@@ -28,43 +25,44 @@ export function AuthProvider(
   { children }: { children: ReactNode }
 ) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function restoreUser() {
       const token = getToken();
 
       if (!token) {
-        setLoading(false);
         return;
       }
 
       try {
-        const response = await fetch(
-          `${API_URL}/auth/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        );
+        // const response = await fetch(
+        //   `${API_URL}/auth/me`,
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`
+        //     }
+        //   }
+        // );
 
-        if (!response.ok) {
+        const response: [boolean, AuthUser | null] = await fetchLoggedInUser(token);
+
+        if (!response[0]) {
           clearToken();
           setUser(null);
-          setLoading(false);
           return;
         }
 
-        const data: AuthUser = await response.json();
-
-        setUser(data);
-
+        if(response[1] == null) {
+          clearToken();
+          setUser(null);
+          return;
+        } else {
+          setUser(response[1]);
+        }
       } catch (err) {
         clearToken();
         setUser(null);
-      } finally {
-        setLoading(false);
       }
     }
 

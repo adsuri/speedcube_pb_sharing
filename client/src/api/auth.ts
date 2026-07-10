@@ -1,4 +1,5 @@
 import { setToken } from "./storage";
+import { API_URL } from "./API_CONSTANTS";
 
 export interface GoogleLoginResponse {
   token: string;
@@ -9,8 +10,14 @@ export interface GoogleLoginResponse {
   }
 }
 
+export interface AuthUser {
+  publicId: string;
+  name: string | null;
+  pictureURL: string | null
+}
+
 export async function loginWithGoogle(googleToken: string): Promise<GoogleLoginResponse> {
-  const response = await fetch("http://localhost:3000/auth/google", {
+  const response = await fetch(API_URL + "/auth/google", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -30,4 +37,21 @@ export async function loginWithGoogle(googleToken: string): Promise<GoogleLoginR
   setToken(data.token);
 
   return data;
+}
+
+export async function fetchLoggedInUser(jwtToken: string): Promise<[boolean, AuthUser | null]> {
+  const response = await fetch(
+    `${API_URL}/auth/me`,
+    {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`
+      }
+    }
+  );
+
+  if (!response.ok) {
+    return [false, null];
+  } else {
+    return [true, await response.json()];
+  }
 }
