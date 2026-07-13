@@ -22,7 +22,6 @@ export async function loginWithGoogle(googleToken: string): Promise<GoogleLoginR
     headers: {
       "Content-Type": "application/json"
     },
-    credentials: "include",
     body: JSON.stringify({
       token: googleToken
     })
@@ -43,8 +42,9 @@ export async function fetchLoggedInUser(jwtToken: string): Promise<[boolean, Aut
   const response = await fetch(
     `${API_URL}/auth/me`,
     {
+      method: "GET",
       headers: {
-        Authorization: `Bearer ${jwtToken}`
+        authorization: `Bearer ${jwtToken}`
       }
     }
   );

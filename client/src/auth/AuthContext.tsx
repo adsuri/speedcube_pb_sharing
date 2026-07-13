@@ -19,8 +19,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-const API_URL = "http://localhost:3000";
-
 export function AuthProvider(
   { children }: { children: ReactNode }
 ) {
@@ -36,15 +34,6 @@ export function AuthProvider(
       }
 
       try {
-        // const response = await fetch(
-        //   `${API_URL}/auth/me`,
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`
-        //     }
-        //   }
-        // );
-
         const response: [boolean, AuthUser | null] = await fetchLoggedInUser(token);
 
         if (!response[0]) {
@@ -80,7 +69,7 @@ export function AuthProvider(
       value={{
         user,
         setUser,
-        logout,
+        logout
       }}
     >
       {children}

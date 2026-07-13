@@ -27,18 +27,17 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
             id: true,
             name: true,
             currMain: true,
-
             records: {
               select: {
                 id: true,
                 category: true,
                 scoreJson: true,
                 setOn: true,
-                setInComp: true,
-              },
-            },
-          },
-        },
+                setInComp: true
+              }
+            }
+          }
+        }
       }
     });
 
