@@ -49,6 +49,7 @@ router.post("/google", async (req, res) => {
     });
 
   } catch (err) {
+    console.error(err);
     return res.status(401).json({ error: "Invalid Google token..." });
   }
 });
@@ -79,6 +80,7 @@ router.get("/me", requireAuth, async (req: AuthRequest, res) => {
       pictureURL: cuber.pictureURL
     });
   } catch (err) {
+    console.error(err);
     return res.status(500).json({ error: "Failed to fetch user..." });
   }
 });

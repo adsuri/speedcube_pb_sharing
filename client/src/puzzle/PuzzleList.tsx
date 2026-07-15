@@ -11,11 +11,12 @@ export interface PuzzleListProps {
   puzzles: Puzzle[];
   onSave: (p: Puzzle) => void;
   onSaveAllowEmpty: (p: Puzzle) => void;
-  onDelete: (p: Puzzle) => void
+  onDelete: (p: Puzzle) => void;
+  isOwner: boolean;
 }
 
 function PuzzleList(
-  { puzzles, onSave, onSaveAllowEmpty, onDelete }: PuzzleListProps
+  { puzzles, onSave, onSaveAllowEmpty, onDelete, isOwner }: PuzzleListProps
 ) {
   const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | null>(null);
 
@@ -61,27 +62,33 @@ function PuzzleList(
       <div className="puzzlelist-header">
         <h2 style={{ fontSize: "2rem" }}>Puzzles:</h2>
 
-        <form onSubmit={handleAddPuzzle}>
-          <select name="puzzle-to-add"
-            value={puzzleSelected}
-            onChange={handleChange} >
-            <option value="" disabled> Select a puzzle to add...</option>
+        {
+          isOwner ? (
+            <form onSubmit={handleAddPuzzle}>
+              <select name="puzzle-to-add"
+                value={puzzleSelected}
+                onChange={handleChange} >
+                <option value="" disabled> Select a puzzle to add...</option>
 
-            {
-              PUZZLES.map((p: string) => {
-                const activePuzzles: string[] = puzzles.map((p: Puzzle) => p.name);
+                {
+                  PUZZLES.map((p: string) => {
+                    const activePuzzles: string[] = puzzles.map((p: Puzzle) => p.name);
 
-                if (activePuzzles.includes(p)) {
-                  return;
-                } else {
-                  return (<option value={p} key={p}>{PUZZLE_NAMES[p]}</option>);
+                    if (activePuzzles.includes(p)) {
+                      return;
+                    } else {
+                      return (<option value={p} key={p}>{PUZZLE_NAMES[p]}</option>);
+                    }
+                  })
                 }
-              })
-            }
-          </select>
+              </select>
 
-          <button className="primary">Add Puzzle</button>
-        </form>
+              <button className="primary">Add Puzzle</button>
+            </form>
+          ) : (
+            <div></div>
+          )
+        }
       </div>
       <div className="row">
         {
@@ -100,7 +107,8 @@ function PuzzleList(
                   <PuzzleCard 
                     puzzle={puzzle}
                     onEdit={handleEdit}
-                    onDelete={onDelete}/>
+                    onDelete={onDelete}
+                    isOwner={isOwner}/>
                 )
               }
             </div>

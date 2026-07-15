@@ -6,13 +6,16 @@ import { CATEGORIES, PUZZLES } from "../CONSTANTS";
 import { useState } from "react";
 import { useEffect } from "react";
 import PuzzleList from "../puzzle/PuzzleList";
+import { postPuzzle, deletePuzzle } from "../api/profile";
+import { getToken } from "../api/storage";
 
 export interface CuberPageProps {
-  user: Cuber
+  user: Cuber,
+  isOwner: boolean
 };
 
 function CuberPage(
-  { user: initialUser }: CuberPageProps
+  { user: initialUser, isOwner }: CuberPageProps
 ) {
   const [user, setUser] = useState<Cuber>(initialUser);
 
@@ -43,8 +46,10 @@ function CuberPage(
 
       if (hasAnyCategory) {
         tempPuzzles[newPuzzle.name] = newPuzzle;
+        postPuzzle(getToken(), user.publicId, newPuzzle);
       } else {
         tempPuzzles[newPuzzle.name] = null;
+        deletePuzzle(getToken(), user.publicId, newPuzzle.name);
       }
 
       return {
@@ -62,6 +67,8 @@ function CuberPage(
         [p.name]: null
       }
     }));
+
+    deletePuzzle(getToken(), user.publicId, p.name);
   };
 
   return (
@@ -84,7 +91,7 @@ function CuberPage(
       <PuzzleList puzzles={puzzleList}
         onSave={handleSavePuzzle}
         onSaveAllowEmpty={handleSavePuzzleAllowEmpty}
-        onDelete={handleDelete} />
+        onDelete={handleDelete} isOwner={isOwner} />
     </div>
   );
 }

@@ -4,13 +4,17 @@ import { Cuber } from "./Cuber";
 import CuberPage from "./CuberPage";
 import { grabUser } from "../api/profile";
 import { getToken } from "../api/storage";
+import { useAuth } from "../auth/AuthContext";
 
 function CuberPageLoader() {
   const { publicId } = useParams();
 
+  const { user: authUser } = useAuth();
+
   const [user, setUser] = useState<Cuber | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [canEdit, setCanEdit] = useState<boolean>(false);
 
   useEffect(() => {
     if (!publicId) {
@@ -24,6 +28,7 @@ function CuberPageLoader() {
         const [isOwner, cuber] = await grabUser(getToken(), publicId!);
 
         setUser(cuber);
+        setCanEdit(isOwner);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load user... This user may not exist.");
       } finally {
@@ -32,7 +37,7 @@ function CuberPageLoader() {
     }
 
     loadUser();
-  }, [publicId]);
+  }, [publicId, authUser]);
 
   if (loading) {
     return (
@@ -49,7 +54,7 @@ function CuberPageLoader() {
   }
 
   return (
-    <CuberPage user={user} />
+    <CuberPage user={user} isOwner={canEdit} />
   );
 }
 

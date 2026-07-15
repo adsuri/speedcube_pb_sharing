@@ -132,6 +132,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       puzzle: result
     });
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       error: "Failed to save puzzle..."
     });
@@ -185,7 +186,7 @@ router.delete("/", requireAuth, async (req: AuthRequest, res) => {
       success: true,
     });
   } catch (err) {
-    // console.log(err);
+    console.error(err);
     return res.status(500).json({
       error: "Failed to delete puzzle..."
     });

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRouter from "./routes/auth.js"
 import usersRouter from "./routes/users.js"
+import puzzleRouter from "./routes/puzzle.js"
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
+app.use("/puzzle", puzzleRouter);
 
 app.get("/", (_, res) => {
   res.send("Cubing Tracker API");

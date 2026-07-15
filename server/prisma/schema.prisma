@@ -49,7 +49,7 @@ model PBest {
   setInComp Boolean @default(false)
 
   puzzleId  String
-  puzzle    Puzzle @relation(fields: [puzzleId], references: [id])
+  puzzle    Puzzle @relation(fields: [puzzleId], references: [id], onDelete: Cascade)
 
   @@unique([puzzleId, category])
 }

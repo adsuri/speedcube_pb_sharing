@@ -1,5 +1,5 @@
 import { Cuber } from "../cuber/Cuber";
-import { type PuzzleInit } from "../puzzle/Puzzle";
+import { Puzzle, type PuzzleInit } from "../puzzle/Puzzle";
 import { type PBestInit } from "../puzzle/PBest";
 import { PUZZLES } from "../CONSTANTS";
 import { API_URL } from "./API_CONSTANTS";
@@ -71,4 +71,36 @@ export async function grabUser(jwtToken: string | null, publicId: string): Promi
   });
 
   return [data.isOwner, cuber];
+}
+
+export async function postPuzzle(jwtToken: string | null, publicId: string, puzzleToSave: Puzzle): Promise<void> {
+  if (jwtToken == null) { return; }
+
+  await fetch(API_URL + "/puzzle/", {
+    method: "POST",
+    headers: {
+      authorization: `Bearer ${jwtToken}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      publicId: publicId,
+      puzzle: puzzleToSave
+    })
+  });
+}
+
+export async function deletePuzzle(jwtToken: string | null, publicId: string, puzzleName: string): Promise<void> {
+  if (jwtToken == null) { return; }
+
+  await fetch(API_URL + "/puzzle/", {
+    method: "DELETE",
+    headers: {
+      authorization: `Bearer ${jwtToken}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      publicId: publicId,
+      name: puzzleName
+    })
+  });
 }

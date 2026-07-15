@@ -8,15 +8,16 @@ export interface PuzzleCardProps {
   puzzle: Puzzle;
   onEdit: (p: Puzzle) => void;
   onDelete: (p: Puzzle) => void;
+  isOwner: boolean;
 }
 
 function PuzzleCard(
-  { puzzle, onEdit, onDelete }: PuzzleCardProps
+  { puzzle, onEdit, onDelete, isOwner }: PuzzleCardProps
 ) {
   return (
     <div className="card fluid">
       <section className="section dark card-header">
-        <img src={"../../../public/assets/" + puzzle.name + ".svg"}
+        <img src={"/assets/" + puzzle.name + ".svg"}
           style={{ maxInlineSize: "20px"}} alt={PUZZLE_NAMES[puzzle.name]}/> 
         <strong>
           Event: {PUZZLE_NAMES[puzzle.name]}
@@ -98,17 +99,23 @@ function PuzzleCard(
           })
         }
       </section>
+      
+      {
+        isOwner ? (
+          <section className="section" style={{ textAlign: "left" }}>
+            <button className="primary" onClick={() => { onEdit(puzzle); }}>
+              <span className="icon-edit "></span>
+              Edit
+            </button>
 
-      <section className="section" style={{ textAlign: "left" }}>
-        <button className="primary" onClick={() => { onEdit(puzzle); }}>
-          <span className="icon-edit "></span>
-          Edit
-        </button>
-
-        <button className="secondary" onClick={() => { onDelete(puzzle) }}>
-          Delete
-        </button>
-      </section>
+            <button className="secondary" onClick={() => { onDelete(puzzle) }}>
+              Delete
+            </button>
+          </section>
+        ) : (
+          null
+        )
+      }
     </div>
   );
 }
