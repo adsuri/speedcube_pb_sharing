@@ -66,8 +66,20 @@ function CuberPage(
 
   return (
     <div className="cuberpage">
-      <span><img src={user.pictureURL ?? ""} /></span><h1>{user.name}</h1>
-      <h4>ID: {user.publicId}</h4>
+      <section className="cuberpage-header">
+        <img src={user.pictureURL ?? ""}
+          style={{
+            width: "100px",
+            height: "100px",
+            borderRadius: "50%",
+            flexShrink: 0
+          }} />
+
+        <div>
+          <h1 style={{ margin: "0" }}>{user.name}</h1>
+          <h4 style={{ margin: "0.25rem 0 " }}>ID: {user.publicId}</h4>
+        </div>
+      </section>
 
       <PuzzleList puzzles={puzzleList}
         onSave={handleSavePuzzle}

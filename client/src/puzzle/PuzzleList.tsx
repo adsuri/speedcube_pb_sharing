@@ -59,7 +59,7 @@ function PuzzleList(
   return (
     <div>
       <div className="puzzlelist-header">
-        <h1>Puzzles:</h1>
+        <h2 style={{ fontSize: "2rem" }}>Puzzles:</h2>
 
         <form onSubmit={handleAddPuzzle}>
           <select name="puzzle-to-add"
