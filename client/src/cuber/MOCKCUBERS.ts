@@ -1,7 +1,4 @@
 import { type CuberInit } from "./Cuber";
-import { PUZZLES } from "../CONSTANTS";
-import { type PuzzleInit } from "../puzzle/Puzzle";
-import { type PBestInit } from "../puzzle/PBest";
 
 export const ADITYA: CuberInit = {
   name: "Aditya Suri",
