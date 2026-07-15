@@ -4,6 +4,7 @@ import { Cuber } from "./Cuber";
 import { CATEGORIES, PUZZLES } from "../CONSTANTS";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import PuzzleList from "../puzzle/PuzzleList";
 
 export interface CuberPageProps {
@@ -17,6 +18,10 @@ function CuberPage(
 
   const puzzleList: Puzzle[] = PUZZLES.map((p) => user.puzzles[p])
     .filter((p): p is Puzzle => p != null);
+
+  useEffect(() => {
+    setUser(initialUser);
+  }, [initialUser]);
 
   const handleSavePuzzleAllowEmpty = (newPuzzle: Puzzle): void => {
     setUser((prev) => ({
@@ -61,7 +66,7 @@ function CuberPage(
 
   return (
     <div className="cuberpage">
-      <h2>{user.name}</h2>
+      <span><img src={user.pictureURL ?? ""} /></span><h1>{user.name}</h1>
       <h4>ID: {user.publicId}</h4>
 
       <PuzzleList puzzles={puzzleList}

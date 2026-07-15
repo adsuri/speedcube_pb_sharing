@@ -1,7 +1,7 @@
-import { Cuber, type CuberInit } from "../cuber/Cuber";
-import { Puzzle, type PuzzleInit } from "../puzzle/Puzzle";
-import { PBest, type PBestInit } from "../puzzle/PBest";
-import { PUZZLES, CATEGORIES } from "../CONSTANTS";
+import { Cuber } from "../cuber/Cuber";
+import { type PuzzleInit } from "../puzzle/Puzzle";
+import { type PBestInit } from "../puzzle/PBest";
+import { PUZZLES } from "../CONSTANTS";
 import { API_URL } from "./API_CONSTANTS";
 
 export interface GrabUserResponse {
@@ -29,11 +29,12 @@ export async function grabUser(jwtToken: string | null, publicId: string): Promi
     } : {}
   });
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch user...");
-  }
   if (response.status == 404) {
     throw new Error("This user does not exist...");
+  }
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch user...");
   }
 
   const data: GrabUserResponse = await response.json();
@@ -64,8 +65,8 @@ export async function grabUser(jwtToken: string | null, publicId: string): Promi
 
   const cuber = new Cuber({
     publicId: data.publicId,
-    name: data.name ?? "[Unknown Name]",
-    pictureURL: data.pictureURL ?? "",
+    name: data.name ?? undefined,
+    pictureURL: data.pictureURL ?? undefined,
     puzzles: puzzles
   });
 

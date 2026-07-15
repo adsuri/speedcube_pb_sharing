@@ -9,6 +9,7 @@ import { BrowserRouter,
          Route,
          Routes } from "react-router-dom";
 import CuberPage from "./cuber/CuberPage";
+import CuberPageLoader from "./cuber/CuberPageLoader";
 import NavBar from "./NavBar";
 
 function App() {
@@ -25,9 +26,9 @@ function App() {
         </Routes>
 
         <Routes>
-          <Route path="/users" 
+          <Route path="/users/:publicId" 
             element={
-              <CuberPage user={new Cuber(ADITYA)}/>
+             <CuberPageLoader />
             } />
         </Routes>
       </div>
