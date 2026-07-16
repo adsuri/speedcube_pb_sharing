@@ -5,27 +5,32 @@ import { BrowserRouter,
          Route,
          Routes } from "react-router-dom";
 import CuberPageLoader from "./cuber/CuberPageLoader";
-import NavBar from "./NavBar";
+import NavBar from "./navigation/NavBar";
+import Footer from "./navigation/Footer";
 
 function App() {
   return (
     <BrowserRouter>
-      <NavBar />
+    <div className="app">
+        <NavBar />
 
-      <div>
-        <Routes>
-          <Route path="/" 
-            element={
-              <NavLink to="/users">User Page</NavLink>
-            } />
-        </Routes>
+        <main className="app-content">
+          <Routes>
+            <Route path="/" 
+              element={
+                <NavLink to="/users">User Page</NavLink>
+              } />
+          </Routes>
 
-        <Routes>
-          <Route path="/users/:publicId" 
-            element={
-             <CuberPageLoader />
-            } />
-        </Routes>
+          <Routes>
+            <Route path="/users/:publicId" 
+              element={
+              <CuberPageLoader />
+              } />
+          </Routes>
+        </main>
+
+        <Footer />
       </div>
     </BrowserRouter>
   );

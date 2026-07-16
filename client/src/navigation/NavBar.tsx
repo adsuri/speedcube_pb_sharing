@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
-import GoogleLoginButton from "./auth/GoogleLoginButton";
-import { useAuth } from "./auth/AuthContext";
+import GoogleLoginButton from "../auth/GoogleLoginButton";
+import { useAuth } from "../auth/AuthContext";
 
 function NavBar() {
   const { user, logout } = useAuth();
