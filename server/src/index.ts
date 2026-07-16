@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+
 import authRouter from "./routes/auth.js"
 import usersRouter from "./routes/users.js"
 import puzzleRouter from "./routes/puzzle.js"

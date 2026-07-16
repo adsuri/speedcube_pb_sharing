@@ -1,3 +1,5 @@
+import { type AuthUser } from "../api/auth";
+
 import {
   createContext,
   useContext,
@@ -7,7 +9,6 @@ import {
 } from "react";
 
 import { clearToken, getToken } from "../api/storage";
-import { type AuthUser } from "../api/auth";
 import { fetchLoggedInUser } from "../api/auth";
 
 

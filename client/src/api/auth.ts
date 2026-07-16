@@ -1,5 +1,5 @@
-import { setToken } from "./storage";
 import { API_URL } from "./API_CONSTANTS";
+import { setToken } from "./storage";
 
 export interface GoogleLoginResponse {
   token: string;

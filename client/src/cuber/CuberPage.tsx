@@ -1,11 +1,12 @@
 import { Puzzle } from "../puzzle/Puzzle";
 import { Cuber } from "./Cuber";
 
-import { CATEGORIES, PUZZLES } from "../CONSTANTS";
+import PuzzleList from "../puzzle/PuzzleList";
 
 import { useState } from "react";
 import { useEffect } from "react";
-import PuzzleList from "../puzzle/PuzzleList";
+
+import { CATEGORIES, PUZZLES } from "../CONSTANTS";
 import { postPuzzle, deletePuzzle } from "../api/profile";
 import { getToken } from "../api/storage";
 

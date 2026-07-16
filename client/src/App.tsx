@@ -1,13 +1,13 @@
 import "./App.css"
 
-import { BrowserRouter,
-         NavLink,
-         Route,
-         Routes } from "react-router-dom";
 import CuberPageLoader from "./cuber/CuberPageLoader";
 import NavBar from "./navigation/NavBar";
 import Footer from "./navigation/Footer";
 import HomePage from "./HomePage";
+
+import { BrowserRouter,
+         Route,
+         Routes } from "react-router-dom";
 
 function App() {
   return (

@@ -1,7 +1,8 @@
 import express from "express";
+
+import { PUZZLES, CATEGORIES } from "../CONSTANTS.js";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth, type AuthRequest } from "../middleware/requireAuth.js";
-import { PUZZLES, CATEGORIES } from "../CONSTANTS.js";
 
 export type SavePBestRequest = {
   score: number | [[number, number], number];

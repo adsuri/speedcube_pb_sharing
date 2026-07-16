@@ -1,7 +1,10 @@
+import { Cuber } from "./Cuber";
+
+import CuberPage from "./CuberPage";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Cuber } from "./Cuber";
-import CuberPage from "./CuberPage";
+
 import { grabUser } from "../api/profile";
 import { getToken } from "../api/storage";
 import { useAuth } from "../auth/AuthContext";

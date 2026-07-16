@@ -1,6 +1,7 @@
 import { Cuber } from "../cuber/Cuber";
 import { Puzzle, type PuzzleInit } from "../puzzle/Puzzle";
 import { type PBestInit } from "../puzzle/PBest";
+
 import { PUZZLES } from "../CONSTANTS";
 import { API_URL } from "./API_CONSTANTS";
 

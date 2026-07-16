@@ -1,4 +1,5 @@
 import { type Request, type Response, type NextFunction } from "express";
+
 import { verifyToken } from "../auth/jwt.js";
 
 export interface OptionalAuthRequest extends Request {

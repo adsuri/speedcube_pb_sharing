@@ -1,11 +1,12 @@
 import { Puzzle } from "./Puzzle";
 import { type PBestInit } from "./PBest";
 
-import { CATEGORIES, PUZZLE_NAMES, PUZZLES } from "../CONSTANTS";
-
-import { useState } from "react";
 import PuzzleCard from "./PuzzleCard";
 import PuzzleForm from "./PuzzleForm";
+
+import { useState } from "react";
+
+import { CATEGORIES, PUZZLE_NAMES, PUZZLES } from "../CONSTANTS";
 
 export interface PuzzleListProps {
   puzzles: Puzzle[];

@@ -1,4 +1,5 @@
 import express from "express";
+
 import { prisma } from "../lib/prisma.js";
 import { optionalAuth, type OptionalAuthRequest } from "../middleware/optionalAuth.js";
 
@@ -58,6 +59,7 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
       isOwner: isOwner
     });
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       error: "Failed to fetch user...",
     });

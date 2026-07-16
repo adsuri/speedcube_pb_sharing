@@ -1,9 +1,10 @@
 import express from "express";
+import { nanoid } from "nanoid";
+
 import { verifyGoogleToken } from "../auth/google.js";
 import { prisma } from "../lib/prisma.js";
 import { signToken } from "../auth/jwt.js";
 import { requireAuth, type AuthRequest } from "../middleware/requireAuth.js";
-import { nanoid } from "nanoid";
 
 const router = express.Router();
 
