@@ -7,6 +7,7 @@ import { BrowserRouter,
 import CuberPageLoader from "./cuber/CuberPageLoader";
 import NavBar from "./navigation/NavBar";
 import Footer from "./navigation/Footer";
+import HomePage from "./HomePage";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Routes>
             <Route path="/" 
               element={
-                <NavLink to="/users">User Page</NavLink>
+                <HomePage />
               } />
           </Routes>
 
