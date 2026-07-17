@@ -21,9 +21,7 @@ function App() {
               element={
                 <HomePage />
               } />
-          </Routes>
 
-          <Routes>
             <Route path="/users/:publicId" 
               element={
               <CuberPageLoader />
