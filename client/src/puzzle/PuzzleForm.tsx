@@ -139,7 +139,7 @@ function PuzzleForm(
           if (hours == "" && minutes == "" && seconds == "") {
             continue
           } else if (!isNumericOrEmpty(hours) || !isNumericOrEmpty(minutes) || !isNumericOrEmpty(seconds)) {
-            newErrorData[category].push("Please enter a valid duration");
+            newErrorData[category].push("Please enter a valid duration...");
           }
         }
       } else if (puzzle.name == "fmc") { // fmc validation
@@ -157,13 +157,18 @@ function PuzzleForm(
         const seconds: string = data[category + "_s"];
 
         if (!isNumericOrEmpty(hours) || !isNumericOrEmpty(minutes) || !isNumericOrEmpty(seconds)) {
-          newErrorData[category].push("Please enter a valid duration");
+          newErrorData[category].push("Please enter a valid duration...");
         }
       }
 
       if (!isISODateOrEmpty(data[category + "_setOn"]) && data[category + "_setOn"] != "") {
         newErrorData[category].push("Please enter an ISO date format...")
       }
+    }
+    newErrorData["currMain"] = [];
+
+    if (data["currMain"].length > 100) {
+      newErrorData["currMain"].push("Your main cannot be longer than 100 characters...");
     }
 
     setErrors(newErrorData);
@@ -288,6 +293,20 @@ function PuzzleForm(
       </fieldset>
 
       {
+        errors["currMain"] != null && errors["currMain"].length != 0 &&
+        (
+          <section>
+            {
+              errors["currMain"].map((e: string, i: number) => (
+                <div className="card error fluid" key={i}
+                  style={{padding: "5px"}}>{e}</div>
+              ))
+            }
+          </section>
+        )
+      }
+
+      {
         CATEGORIES.map((category: string) => (
           <fieldset key={category}>
             <legend>{category}</legend>
@@ -367,7 +386,8 @@ function PuzzleForm(
                 <section>
                   {
                     errors[category].map((e: string, i: number) => (
-                      <div className="card error fluid" key={i}>{e}</div>
+                      <div className="card error fluid" key={i}
+                        style={{padding: "5px"}}>{e}</div>
                     ))
                   }
                 </section>
