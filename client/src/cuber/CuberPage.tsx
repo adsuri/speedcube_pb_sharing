@@ -19,6 +19,7 @@ function CuberPage(
   { user: initialUser, isOwner }: CuberPageProps
 ) {
   const [user, setUser] = useState<Cuber>(initialUser);
+  const [copied, setCopied] = useState<boolean>(false);
 
   const puzzleList: Puzzle[] = PUZZLES.map((p) => user.puzzles[p])
     .filter((p): p is Puzzle => p != null);
@@ -26,6 +27,18 @@ function CuberPage(
   useEffect(() => {
     setUser(initialUser);
   }, [initialUser]);
+
+  const handleCopyLink = async (): Promise<void> => {
+    const profileUrl = `${window.location.origin}/users/${user.publicId}`;
+
+    await navigator.clipboard.writeText(profileUrl);
+
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
 
   const handleSavePuzzleAllowEmpty = (newPuzzle: Puzzle): void => {
     setUser((prev) => ({
@@ -85,7 +98,15 @@ function CuberPage(
 
         <div>
           <h1 style={{ margin: "0" }}>{user.name}</h1>
-          <h4 style={{ margin: "0.25rem 0 " }}>ID: {user.publicId}</h4>
+          <h4 style={{ margin: "0.25rem 0 " }}>
+            ID: {user.publicId} <span> </span>
+            <button
+              className="small rounded"
+              onClick={handleCopyLink}
+              style={{textAlign: "left", margin: 0}}>
+              {copied ? "Copied!" : "Copy Link"}
+            </button>
+          </h4>
         </div>
       </section>
 
