@@ -37,7 +37,8 @@ router.post("/google", async (req, res) => {
     }
 
     const jwtToken = signToken({
-      cuberId: cuber.id
+      cuberId: cuber.id,
+      email: cuber.email
     });
     
     return res.json({

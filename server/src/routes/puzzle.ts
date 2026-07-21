@@ -45,7 +45,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       }
     });
 
-    if (targetUser?.id != cuberId && !(req.user!.email in ADMINS)) {
+    if (targetUser?.id != cuberId && !(ADMINS.includes(req.user!.email))) {
       return res.status(403).json({ error: "You cannot change another user's puzzles..." });
     }
 
@@ -88,12 +88,12 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       const dbPuzzle = await tx.puzzle.upsert({
         where: {
           cuberId_name: {
-            cuberId: cuberId,
+            cuberId: targetUser!.id,
             name: puzzle.name
           }
         },
         create: {
-          cuberId: cuberId,
+          cuberId: targetUser!.id,
           name: puzzle.name,
           currMain: puzzle.currMain ?? null
         },
@@ -170,13 +170,13 @@ router.delete("/", requireAuth, async (req: AuthRequest, res) => {
       }
     });
 
-    if (targetUser?.id != cuberId && !(req.user!.email in ADMINS)) {
+    if (targetUser?.id != cuberId && !(ADMINS.includes(req.user!.email))) {
       return res.status(403).json({ error: "You cannot change another user's puzzles..." });
     }
 
     await prisma.puzzle.deleteMany({
       where: {
-        cuberId: cuberId,
+        cuberId: targetUser!.id,
         name: name
       }
     });

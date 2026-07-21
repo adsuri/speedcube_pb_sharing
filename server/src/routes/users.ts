@@ -51,9 +51,12 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
       });
     }
 
-    const isOwner =
+    const isOwner: boolean = false;
+
+    if (req.user != null) {
       req.user?.cuberId === cuber.id
-      || cuber.email in ADMINS;
+      || ADMINS.includes(req.user!.email);
+    }
 
     return res.json({
       publicId: cuber.publicId,
