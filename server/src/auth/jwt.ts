@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken"
 
 export interface JwtPayload {
-  cuberId: string
+  cuberId: string;
+  email: string;
 }
 
 export function signToken(payload: JwtPayload) {

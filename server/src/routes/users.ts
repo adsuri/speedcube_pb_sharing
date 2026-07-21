@@ -1,5 +1,7 @@
 import express from "express";
 
+import { ADMINS } from "../CONSTANTS.js";
+
 import { prisma } from "../lib/prisma.js";
 import { optionalAuth, type OptionalAuthRequest } from "../middleware/optionalAuth.js";
 
@@ -22,6 +24,7 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
         publicId: true,
         name: true,
         pictureURL: true,
+        email: true,
 
         puzzles: {
           select: {
@@ -49,7 +52,8 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
     }
 
     const isOwner =
-      req.user?.cuberId === cuber.id;
+      req.user?.cuberId === cuber.id
+      || cuber.email in ADMINS;
 
     return res.json({
       publicId: cuber.publicId,

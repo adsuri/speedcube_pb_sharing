@@ -1,6 +1,6 @@
 import express from "express";
 
-import { PUZZLES, CATEGORIES } from "../CONSTANTS.js";
+import { PUZZLES, CATEGORIES, ADMINS } from "../CONSTANTS.js";
 import { prisma } from "../lib/prisma.js";
 import { requireAuth, type AuthRequest } from "../middleware/requireAuth.js";
 
@@ -45,8 +45,7 @@ router.post("/", requireAuth, async (req: AuthRequest, res) => {
       }
     });
 
-    if (targetUser?.id != cuberId) {
-      // eventual admin check
+    if (targetUser?.id != cuberId && !(req.user!.email in ADMINS)) {
       return res.status(403).json({ error: "You cannot change another user's puzzles..." });
     }
 
@@ -171,8 +170,7 @@ router.delete("/", requireAuth, async (req: AuthRequest, res) => {
       }
     });
 
-    if (targetUser?.id != cuberId) {
-      // eventual admin check
+    if (targetUser?.id != cuberId && !(req.user!.email in ADMINS)) {
       return res.status(403).json({ error: "You cannot change another user's puzzles..." });
     }
 

@@ -1,3 +1,5 @@
+import { json } from "node:stream/consumers";
+
 export const CATEGORIES: string[] = [
   "single", "mo3", "ao5", "ao12", "ao25", "ao50", "ao100"
 ];
@@ -27,3 +29,5 @@ export const PUZZLE_NAMES: Record<string, string> = {
   "5bld": "5x5x5 Blindfolded",
   "mbld": "Multiblind"
 };
+
+export const ADMINS = JSON.parse(process.env.ADMINS || "");

@@ -5,6 +5,7 @@ import { verifyToken } from "../auth/jwt.js";
 export interface OptionalAuthRequest extends Request {
   user?: {
     cuberId: string;
+    email: string;
   } | null;
 }
 
@@ -32,6 +33,7 @@ export function optionalAuth(
 
     req.user = {
       cuberId: payload.cuberId,
+      email: payload.email
     };
   } catch {
     req.user = null;

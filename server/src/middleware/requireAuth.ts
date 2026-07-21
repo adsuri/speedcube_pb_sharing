@@ -5,6 +5,7 @@ import { verifyToken } from "../auth/jwt.js";
 export interface AuthRequest extends Request {
   user?: {
     cuberId: string;
+    email: string;
   };
 }
 
@@ -30,6 +31,7 @@ export function requireAuth(
 
     req.user = {
       cuberId: payload.cuberId,
+      email: payload.email
     };
 
     next();
