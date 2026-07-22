@@ -53,3 +53,9 @@ model PBest {
 
   @@unique([puzzleId, category])
 }
+
+model Report {
+  id       String @id @unique @default(cuid())
+  publicId String
+  where    String
+}
