@@ -34,6 +34,16 @@ CREATE TABLE "PBest" (
     CONSTRAINT "PBest_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Report" (
+    "id" TEXT NOT NULL,
+    "targetPublicId" TEXT NOT NULL,
+    "where" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Report_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Cuber_googleId_key" ON "Cuber"("googleId");
 
@@ -48,6 +58,9 @@ CREATE UNIQUE INDEX "Puzzle_cuberId_name_key" ON "Puzzle"("cuberId", "name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "PBest_puzzleId_category_key" ON "PBest"("puzzleId", "category");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Report_id_key" ON "Report"("id");
 
 -- AddForeignKey
 ALTER TABLE "Puzzle" ADD CONSTRAINT "Puzzle_cuberId_fkey" FOREIGN KEY ("cuberId") REFERENCES "Cuber"("id") ON DELETE CASCADE ON UPDATE CASCADE;

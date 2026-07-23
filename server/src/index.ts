@@ -19,7 +19,7 @@ const app = express();
 app.set("trust proxy", 1);
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://speedcube-pbs.vercel.app"],
     credentials: true,
 }));
 
@@ -41,6 +41,6 @@ app.get("/", (_, res) => {
 
 const PORT = Number(process.env.PORT) || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
