@@ -13,11 +13,12 @@ export interface PuzzleListProps {
   onSave: (p: Puzzle) => void;
   onSaveAllowEmpty: (p: Puzzle) => void;
   onDelete: (p: Puzzle) => void;
+  onReport: (info: string) => void;
   isOwner: boolean;
 }
 
 function PuzzleList(
-  { puzzles, onSave, onSaveAllowEmpty, onDelete, isOwner }: PuzzleListProps
+  { puzzles, onSave, onSaveAllowEmpty, onDelete, onReport, isOwner }: PuzzleListProps
 ) {
   const [puzzleBeingEdited, setPuzzleBeingEdited] = useState<Puzzle | null>(null);
 
@@ -109,7 +110,8 @@ function PuzzleList(
                     puzzle={puzzle}
                     onEdit={handleEdit}
                     onDelete={onDelete}
-                    isOwner={isOwner}/>
+                    isOwner={isOwner}
+                    onReport={onReport} />
                 )
               }
             </div>

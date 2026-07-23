@@ -96,6 +96,11 @@ body,
   padding: 0.5rem;
 }
 
+.report-button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
 /* * {
   outline: 1px solid rgba(255, 0, 0, 0.2);
 } */

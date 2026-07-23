@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 import { CATEGORIES, PUZZLES } from "../CONSTANTS";
-import { postPuzzle, deletePuzzle } from "../api/profile";
+import { postPuzzle, deletePuzzle, postReport } from "../api/profile";
 import { getToken } from "../api/storage";
 
 export interface CuberPageProps {
@@ -85,6 +85,10 @@ function CuberPage(
     deletePuzzle(getToken(), user.publicId, p.name);
   };
 
+  const handleReport = (info: string): void => {
+    postReport(user.publicId, info);
+  }
+
   return (
     <div className="cuberpage">
       <section className="cuberpage-header">
@@ -106,14 +110,20 @@ function CuberPage(
               style={{textAlign: "left", margin: 0}}>
               {copied ? "Copied!" : "Copy Link"}
             </button>
+            <button className="small secondary report-button"
+              onClick={() => { handleReport("name_or_pfp"); }}>
+              Report User
+            </button>
           </h4>
+          
         </div>
       </section>
 
       <PuzzleList puzzles={puzzleList}
         onSave={handleSavePuzzle}
         onSaveAllowEmpty={handleSavePuzzleAllowEmpty}
-        onDelete={handleDelete} isOwner={isOwner} />
+        onDelete={handleDelete} isOwner={isOwner}
+        onReport={handleReport}/>
     </div>
   );
 }

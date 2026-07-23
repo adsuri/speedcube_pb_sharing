@@ -8,11 +8,12 @@ export interface PuzzleCardProps {
   puzzle: Puzzle;
   onEdit: (p: Puzzle) => void;
   onDelete: (p: Puzzle) => void;
+  onReport: (info: string) => void;
   isOwner: boolean;
 }
 
 function PuzzleCard(
-  { puzzle, onEdit, onDelete, isOwner }: PuzzleCardProps
+  { puzzle, onEdit, onDelete, onReport, isOwner }: PuzzleCardProps
 ) {
   return (
     <div className="card fluid">
@@ -98,17 +99,22 @@ function PuzzleCard(
             }
           })
         }
+
+        <button className="small secondary report-button"
+          onClick={() => { onReport(puzzle.name) }}>
+          Report Puzzle
+        </button>
       </section>
-      
+
       {
         isOwner ? (
-          <section className="section" style={{ textAlign: "left" }}>
+          <section className="section" style={{ textAlign: "left"}}>
             <button className="primary" onClick={() => { onEdit(puzzle); }}>
               <span className="icon-edit "></span>
               Edit
             </button>
 
-            <button className="secondary" onClick={() => { onDelete(puzzle) }}>
+            <button className="secondary" onClick={() => { onDelete(puzzle); }}>
               Delete
             </button>
           </section>

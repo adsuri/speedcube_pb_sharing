@@ -51,11 +51,11 @@ router.get("/:publicId", optionalAuth, async (req: OptionalAuthRequest, res) => 
       });
     }
 
-    const isOwner: boolean = false;
+    let isOwner: boolean = false;
 
     if (req.user != null) {
-      req.user?.cuberId === cuber.id
-      || ADMINS.includes(req.user!.email);
+      isOwner = req.user?.cuberId === cuber.id
+        || ADMINS.includes(req.user!.email);
     }
 
     return res.json({

@@ -35,3 +35,15 @@ export const puzzleWriteLimiter = rateLimit({
     error: "Too many puzzle updates. Please try again later..."
   }
 });
+
+export const reportLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+
+  message: {
+    error: "Too many reports. Please try again later..."
+  }
+});

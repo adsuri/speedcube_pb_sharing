@@ -55,7 +55,8 @@ model PBest {
 }
 
 model Report {
-  id       String @id @unique @default(cuid())
-  publicId String
-  where    String
+  id              String @id @unique @default(cuid())
+  targetPublicId  String
+  where           String
+  createdAt       DateTime @default(now())
 }

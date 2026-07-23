@@ -105,3 +105,16 @@ export async function deletePuzzle(jwtToken: string | null, publicId: string, pu
     })
   });
 }
+
+export async function postReport(targetPublicId: string, where: string): Promise<void> {
+  await fetch(API_URL + "/report", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      targetPublicId: targetPublicId,
+      where: where
+    })
+  });
+}

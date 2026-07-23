@@ -30,4 +30,4 @@ export const PUZZLE_NAMES: Record<string, string> = {
   "mbld": "Multiblind"
 };
 
-export const ADMINS = JSON.parse(process.env.ADMINS || "");
+export const ADMINS = JSON.parse(process.env.ADMINS || "[]");

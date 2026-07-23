@@ -14,7 +14,7 @@ export type SavePuzzleRequest = {
   name: string;
   currMain?: string | null;
   records?: Record<string, SavePBestRequest | null>
-};
+}
 
 const router = express.Router();
 
