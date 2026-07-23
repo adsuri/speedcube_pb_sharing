@@ -4,6 +4,7 @@ import CuberPageLoader from "./cuber/CuberPageLoader";
 import NavBar from "./navigation/NavBar";
 import Footer from "./navigation/Footer";
 import HomePage from "./HomePage";
+import GoogleLoginButton from "./auth/GoogleLoginButton";
 
 import { BrowserRouter,
          Route,
@@ -14,6 +15,9 @@ function App() {
     <BrowserRouter>
     <div className="app">
         <NavBar />
+        <div style={{ marginLeft: "auto", marginRight: "2%" }}>
+          <GoogleLoginButton />
+        </div>
 
         <main className="app-content">
           <Routes>

@@ -14,9 +14,10 @@ function NavBar() {
 
       {
         user === null ? (
-          <div style={{ marginLeft: "auto", marginRight: "2%" }}>
-            <GoogleLoginButton />
-          </div>
+          // <div style={{ marginLeft: "auto", marginRight: "2%" }}>
+          //   <GoogleLoginButton />
+          // </div>
+          <div></div>
         ) : (
           <div className="logged-in">
             <NavLink
