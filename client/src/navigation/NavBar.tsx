@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-// import GoogleLoginButton from "../auth/GoogleLoginButton";
+import GoogleLoginButton from "../auth/GoogleLoginButton";
 import { useAuth } from "../auth/AuthContext";
 
 function NavBar() {
@@ -14,10 +14,9 @@ function NavBar() {
 
       {
         user === null ? (
-          // <div style={{ marginLeft: "auto", marginRight: "2%" }}>
-          //   <GoogleLoginButton />
-          // </div>
-          <div></div>
+          <div className="google-login-wrapper">
+            <GoogleLoginButton />
+          </div>
         ) : (
           <div className="logged-in">
             <NavLink
