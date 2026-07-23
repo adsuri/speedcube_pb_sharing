@@ -13,6 +13,7 @@ function GoogleLoginButton() {
       text="signin_with"
       shape="rectangular"
       width="250"
+      use_fedcm_for_prompt={false}
       onSuccess={async (credentialResponse) => {
         try {
           const googleToken = credentialResponse.credential;
