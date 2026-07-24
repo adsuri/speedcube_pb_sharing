@@ -113,15 +113,56 @@ body,
   margin-left: auto;
   margin-right: 2%;
   flex-shrink: 0;
-  z-index: 9999;
 }
 
-header {
+/* header {
   display: block !important;
   position: static !important;
   overflow: visible !important;
   width: 100%;
   height: auto !important;
+} */
+
+.navbar {
+  box-sizing: border-box;
+  width: 100%;
+  height: 3.1875rem;
+
+  display: flex;
+  align-items: center;
+
+  position: sticky;
+  top: 0;
+  z-index: 1101;
+
+  overflow: visible;
+
+  white-space: nowrap;
+}
+
+.navbar-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-content > .button {
+  flex-shrink: 0;
+}
+
+.google-login-wrapper {
+  margin-left: auto;
+  margin-right: 2%;
+
+  flex-shrink: 0;
+}
+
+.logged-in {
+  margin-left: auto;
+  margin-right: 2%;
+  display: flex;
+  align-items: center;
 }
 
 /* * {
