@@ -26,11 +26,11 @@ input[type="checkbox"] {
   gap: 0.1rem;
 }
 
-header.sticky {
+/* header.sticky {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-}
+} */
 
 .cuberpage {
   box-sizing: border-box;
@@ -116,6 +116,13 @@ header {
   z-index: 9999;
 }
 
+header {
+  display: block !important;
+  position: static !important;
+  overflow: visible !important;
+  width: 100%;
+  height: auto !important;
+}
 
 /* * {
   outline: 1px solid rgba(255, 0, 0, 0.2);
