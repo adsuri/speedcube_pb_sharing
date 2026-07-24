@@ -54,7 +54,7 @@ function NavBar() {
   // );
 
   return (
-    <header><GoogleLoginButton /></header>
+    <div><GoogleLoginButton /></div>
   );
 }
 
