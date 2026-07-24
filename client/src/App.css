@@ -147,7 +147,7 @@ body,
 .google-login-wrapper iframe {
   opacity: 1 !important;
   visibility: visible !important;
-  height: 40px !important;
+  height: 50px !important;
   width: 270px !important;
 }
 
