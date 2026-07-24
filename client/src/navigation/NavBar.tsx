@@ -40,13 +40,13 @@ function NavBar() {
       //         {user.name ?? "User"}
       //       </NavLink>
 
-      //       <button
-      //         className="secondary"
-      //         onClick={logout}
-      //         style={{ marginLeft: "8px" }}
-      //       >
-      //         Logout
-      //       </button>
+            // <button
+            //   className="secondary"
+            //   onClick={logout}
+            //   style={{ marginLeft: "8px" }}
+            // >
+            //   Logout
+            // </button>
       //     </div>
       //   )
       // }
@@ -57,7 +57,7 @@ function NavBar() {
     <div className="navbar">
       <div className="navbar-content">
         <NavLink to="/" className="button rounded">
-          <span className="icon-home"></span> Home
+          <span className="icon-home"></span> HOME
         </NavLink>
 
         {
@@ -85,15 +85,14 @@ function NavBar() {
                     borderRadius: "50%",
                     marginRight: "8px",
                   }} />
-                {user.name ?? "User"}
+                {user.name?.toUpperCase() ?? "User"}
               </NavLink>
 
               <button
-                className="secondary"
                 onClick={logout}
                 style={{ marginLeft: "8px" }}
               >
-                Logout
+                LOGOUT
               </button>
             </div>
           )
