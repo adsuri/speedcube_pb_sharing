@@ -106,7 +106,7 @@ body,
 }
 
 header {
-  overflow: visible;
+  overflow: visible !important;
 }
 
 .google-login-wrapper {
