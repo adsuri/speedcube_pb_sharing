@@ -4,10 +4,11 @@ import { loginWithGoogle } from "../api/auth";
 import { useAuth } from "./AuthContext";
 
 function GoogleLoginButton() {
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
 
   return (
     <GoogleLogin
+      key={user ? "logged-in" : "logged-out"}
       theme="outline"
       size="large"
       text="signin_with"
