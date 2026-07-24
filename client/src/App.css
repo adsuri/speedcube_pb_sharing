@@ -141,8 +141,14 @@ body,
 .google-login-wrapper {
   margin-left: auto;
   margin-right: 2%;
-
   flex-shrink: 0;
+}
+
+.google-login-wrapper iframe {
+  opacity: 1 !important;
+  visibility: visible !important;
+  height: 40px !important;
+  width: 270px !important;
 }
 
 .logged-in {
