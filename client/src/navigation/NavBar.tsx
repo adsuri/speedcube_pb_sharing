@@ -14,9 +14,9 @@ function NavBar() {
 
       {
         user === null ? (
-          <div className="google-login-wrapper">
+
             <GoogleLoginButton />
-          </div>
+
         ) : (
           <div className="logged-in">
             <NavLink
