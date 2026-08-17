@@ -5,7 +5,9 @@ export const CATEGORIES: string[] = [
 export const PUZZLES: string[] = [
   "222", "333", "444", "555", "666", "777",
   "skewb", "squan", "pyra", "mega", "fmc",
-  "clock", "333oh", "3bld", "4bld", "5bld", "mbld"
+  "clock", "333oh", "3bld", "4bld", "5bld",
+  "mbld", "gear", "2mega", "fto", "4pyra",
+  "redi", "mirror"
 ];
 
 export const PUZZLE_NAMES: Record<string, string> = {
@@ -25,5 +27,11 @@ export const PUZZLE_NAMES: Record<string, string> = {
   "3bld": "3x3x3 Blindfolded",
   "4bld": "4x4x4 Blindfolded",
   "5bld": "5x5x5 Blindfolded",
-  "mbld": "Multiblind"
+  "mbld": "Multiblind",
+  "gear": "Gear Cube",
+  "2mega": "Kilominx",
+  "fto": "Face-Turning Octahedron",
+  "4pyra": "Master Pyraminx",
+  "redi": "Redi Cube",
+  "mirror": "Mirror Cube"
 };
