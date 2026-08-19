@@ -19,8 +19,8 @@ const app = express();
 app.set("trust proxy", 1);
 
 app.use(cors({
-    origin: ["http://localhost:5173", "https://speedcube-pbs.vercel.app"],
-    credentials: true,
+    origin: ["http://localhost:5173", "https://speedcube-pbs.vercel.app", "https://speedcube-pbs.app"],
+    credentials: true
 }));
 
 app.use(express.json());
